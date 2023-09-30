@@ -256,7 +256,7 @@ Future<term?> getterm() async {
     return null;
   }
 
-Future<check> getcheck(String CER_SERIAL) async {
+Future<check> getcheck(String cerSerial) async {
   try {
     final user = await SharedPreferences.getInstance();
     var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.check);
@@ -264,14 +264,14 @@ Future<check> getcheck(String CER_SERIAL) async {
 
     request.headers['Authorization'] = 'Bearer ${user.getString('token')}';
 
-    request.fields['CER_SERIAL'] = CER_SERIAL;
+    request.fields['CER_SERIAL'] = cerSerial;
 
     print(url);
     print(request);
     var response = await request.send();
 
     print( 'Bearer ${user.getString('token')}');
-    print(CER_SERIAL);
+    print(cerSerial);
     final responseString = await response.stream.bytesToString();
     print(responseString);
 
@@ -349,17 +349,17 @@ Future<check> getcheck(String CER_SERIAL) async {
 
 
 Future<Success?> Setimportations(
-    _EXPORT_COUNTRY,
-_ORIGIN_COUNTRY,
-_EXPORT_COUNTRYa,
-_ORIGIN_COUNTRYa,
-_TRANSIET_COUNTRY,
-ENTERY_PORT,
-EXPECTED_ARRIVAL_DATE,
-SHIPPING_DATE,
-ANML_NUMBER,
+    exportCountry,
+originCountry,
+exportCountrya,
+originCountrya,
+transietCountry,
+enteryPort,
+expectedArrivalDate,
+shippingDate,
+anmlNumber,
 files,
-Pledge,EXP_CER_SERIAL) async {
+Pledge,expCerSerial) async {
 
 
   try {
@@ -371,10 +371,10 @@ Pledge,EXP_CER_SERIAL) async {
 
 
 
-    request.fields['EXPORT_COUNTRYa'] = _EXPORT_COUNTRYa;
-    request.fields['ORIGIN_COUNTRYa'] = _ORIGIN_COUNTRYa;
-    request.fields['TRANSIET_COUNTRYa'] = _TRANSIET_COUNTRY;
-    request.fields['ANML_NUMBER'] = ANML_NUMBER;
+    request.fields['EXPORT_COUNTRYa'] = exportCountrya;
+    request.fields['ORIGIN_COUNTRYa'] = originCountrya;
+    request.fields['TRANSIET_COUNTRYa'] = transietCountry;
+    request.fields['ANML_NUMBER'] = anmlNumber;
 
 
 
@@ -382,22 +382,21 @@ Pledge,EXP_CER_SERIAL) async {
 
 
 
- request.fields['EXPECTED_ARRIVAL_DATE'] = EXPECTED_ARRIVAL_DATE;
-    request.fields['EXP_COUNTRY'] = _EXPORT_COUNTRY;
+ request.fields['EXPECTED_ARRIVAL_DATE'] = expectedArrivalDate;
+    request.fields['EXP_COUNTRY'] = exportCountry;
 
-    request.fields['ORIGIN_COUNTRY'] = _ORIGIN_COUNTRY;
-request.fields['EXP_CER_SERIAL'] = EXP_CER_SERIAL;
-    request.fields['ENTERY_PORT'] = ENTERY_PORT;
+    request.fields['ORIGIN_COUNTRY'] = originCountry;
+request.fields['EXP_CER_SERIAL'] = expCerSerial;
+    request.fields['ENTERY_PORT'] = enteryPort;
 
-    request.fields['SHIPPING_DATE'] = SHIPPING_DATE;
+    request.fields['SHIPPING_DATE'] = shippingDate;
 
 
     // Add the PDF file
     var pdfFile = await http.MultipartFile.fromPath('files', files);
     request.files.add(pdfFile);
      // Add the PDF file
-    var Pledgef = await http.MultipartFile.fromPath('Pledge', Pledge);
-    request.files.add(Pledgef);
+    
 print(request);
     // Send the request
     var response = await request.send();
@@ -492,16 +491,16 @@ print(request);
 
 
 Future<Success?> Setexport(
-    _EXPORT_COUNTRY,
-_ORIGIN_COUNTRY,
-_EXPORT_COUNTRYa,
-_ORIGIN_COUNTRYa,
-_TRANSIET_COUNTRY,
+    exportCountry,
+originCountry,
+exportCountrya,
+originCountrya,
+transietCountry,
 
-SHIPPING_DATE,
-ANML_NUMBER,
+shippingDate,
+anmlNumber,
 files,
-Pledge,IMP_CER_SERIAL) async {
+Pledge,impCerSerial) async {
 
 
   try {
@@ -513,10 +512,10 @@ Pledge,IMP_CER_SERIAL) async {
 
 
 
-    request.fields['EXPORT_COUNTRYa'] = _EXPORT_COUNTRYa;
-    request.fields['ORIGIN_COUNTRYa'] = _ORIGIN_COUNTRYa;
-    request.fields['TRANSIET_COUNTRYa'] = _TRANSIET_COUNTRY;
-    request.fields['ANML_NUMBER'] = ANML_NUMBER;
+    request.fields['EXPORT_COUNTRYa'] = exportCountrya;
+    request.fields['ORIGIN_COUNTRYa'] = originCountrya;
+    request.fields['TRANSIET_COUNTRYa'] = transietCountry;
+    request.fields['ANML_NUMBER'] = anmlNumber;
 
 
 
@@ -524,21 +523,19 @@ Pledge,IMP_CER_SERIAL) async {
 
 
 
-    request.fields['EXP_COUNTRY'] = _EXPORT_COUNTRY;
+    request.fields['EXP_COUNTRY'] = exportCountry;
 
-    request.fields['ORIGIN_COUNTRY'] = _ORIGIN_COUNTRY;
-request.fields['IMP_CER_SERIAL'] = IMP_CER_SERIAL;
+    request.fields['ORIGIN_COUNTRY'] = originCountry;
+request.fields['IMP_CER_SERIAL'] = impCerSerial;
 
 
-    request.fields['SHIPPING_DATE'] = SHIPPING_DATE;
+    request.fields['SHIPPING_DATE'] = shippingDate;
 
 
     // Add the PDF file
     var pdfFile = await http.MultipartFile.fromPath('files', files);
     request.files.add(pdfFile);
-     // Add the PDF file
-    var Pledgef = await http.MultipartFile.fromPath('Pledge', Pledge);
-    request.files.add(Pledgef);
+
 print(request);
     // Send the request
     var response = await request.send();
@@ -557,7 +554,7 @@ print(request);
   }
   return null;
 }
-  Future<Success?> Setexports(COMP_ID,EUSER_QID,EXP_NAME,EXP_TEL,EXP_QID,EXP_FAX,EXP_COUNTRY,IMP_NAME,IMP_FAX,IMP_TEL,IMP_COUNTRY,ORIGIN_COUNTRY,SHIPPING_PLACE,TRANSPORT,SHIPPING_DATE,EXP_NATIONALITY,EXP_PASSPORT_NUM,ANIMAL_INFO,filePath) async {
+  Future<Success?> Setexports(compId,euserQid,expName,expTel,expQid,expFax,expCountry,impName,impFax,impTel,impCountry,originCountry,shippingPlace,TRANSPORT,shippingDate,expNationality,expPassportNum,animalInfo,filePath) async {
     try {
       final user = await SharedPreferences.getInstance();
       var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.exports);
@@ -565,24 +562,24 @@ print(request);
           request.headers['Authorization'] = 'Bearer ${user.getString('token')}';
 
          // Add your other form data fields
-    request.fields['COMP_ID'] = COMP_ID;
-    request.fields['EUSER_QID'] = EUSER_QID;
-    request.fields['EXP_NAME'] = EXP_NAME;
-    request.fields['IMP_QID'] = EXP_QID;
-    request.fields['EXP_TEL'] = EXP_TEL;
-    request.fields['EXP_FAX'] = EXP_FAX;
-    request.fields['EXP_COUNTRY'] = EXP_COUNTRY;
-    request.fields['IMP_NAME'] = IMP_NAME;
-    request.fields['IMP_FAX'] = IMP_FAX;
-    request.fields['IMP_TEL'] = IMP_TEL;
-    request.fields['IMP_COUNTRY'] = IMP_COUNTRY;
-    request.fields['ORIGIN_COUNTRY'] = ORIGIN_COUNTRY;
-    request.fields['SHIPPING_PLACE'] = SHIPPING_PLACE;
+    request.fields['COMP_ID'] = compId;
+    request.fields['EUSER_QID'] = euserQid;
+    request.fields['EXP_NAME'] = expName;
+    request.fields['IMP_QID'] = expQid;
+    request.fields['EXP_TEL'] = expTel;
+    request.fields['EXP_FAX'] = expFax;
+    request.fields['EXP_COUNTRY'] = expCountry;
+    request.fields['IMP_NAME'] = impName;
+    request.fields['IMP_FAX'] = impFax;
+    request.fields['IMP_TEL'] = impTel;
+    request.fields['IMP_COUNTRY'] = impCountry;
+    request.fields['ORIGIN_COUNTRY'] = originCountry;
+    request.fields['SHIPPING_PLACE'] = shippingPlace;
     request.fields['TRANSPORT'] = TRANSPORT;
-    request.fields['SHIPPING_DATE'] = SHIPPING_DATE;
-    request.fields['EXP_NATIONALITY'] = EXP_NATIONALITY;
-    request.fields['EXP_PASSPORT_NUM'] = EXP_PASSPORT_NUM;
-    request.fields['ANIMAL_INFO'] = jsonEncode(ANIMAL_INFO);
+    request.fields['SHIPPING_DATE'] = shippingDate;
+    request.fields['EXP_NATIONALITY'] = expNationality;
+    request.fields['EXP_PASSPORT_NUM'] = expPassportNum;
+    request.fields['ANIMAL_INFO'] = jsonEncode(animalInfo);
 
     // Add the PDF file
     var pdfFile = await http.MultipartFile.fromPath('files', filePath);

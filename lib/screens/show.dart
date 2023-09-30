@@ -420,7 +420,7 @@ class _showContentState extends State<showContent>{
 
             Navigator.of(context).push(
   MaterialPageRoute(
-    builder: (context) => PDFViewerScreen(pdfUrl: '${ApiConstants.bUrl}'+'${widget.paramValue.files}'),
+    builder: (context) => PDFViewerScreen(pdfUrl: ApiConstants.bUrl+'${widget.paramValue.files}'),
   ),
 );
 

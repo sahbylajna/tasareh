@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/model/count.dart';
 
-import 'package:tasareeh/screens/back.dart';
 import 'package:tasareeh/screens/book.dart';
 import 'package:tasareeh/screens/constants.dart';
 import 'package:tasareeh/screens/in.dart';
@@ -144,7 +142,7 @@ users = prefs.getString('first_name')! ;
                 width: 80,
                 height: 80,
               ),
-              Text('مرحبا بك ${users}', style: TextStyle(fontSize: 20)),
+              Text('مرحبا بك $users', style: TextStyle(fontSize: 20)),
               SizedBox(width: 40, height: 40), // Empty SizedBox for spacing
             ],
           ),

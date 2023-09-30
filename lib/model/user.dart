@@ -79,28 +79,28 @@ class User {
    );
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['ud'] = this.ud;
-    data['photo_ud_frent'] = this.photoUdFrent;
-    data['photo_ud_back'] = this.photoUdBack;
-    data['contry_id'] = this.contryId;
-    data['accepted'] = this.accepted;
-    data['refused'] = this.refused;
-    data['deleted_at'] = this.deletedAt;
-    data['singateur'] = this.singateur;
-    data['code'] = this.code;
-    data['virification'] = this.virification;
-    data['contry'] = this.contry;
-    data['adresse'] = this.adresse;
-    data['fax'] = this.fax;
-    data['POBOX'] = this.pOBOX;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['ud'] = ud;
+    data['photo_ud_frent'] = photoUdFrent;
+    data['photo_ud_back'] = photoUdBack;
+    data['contry_id'] = contryId;
+    data['accepted'] = accepted;
+    data['refused'] = refused;
+    data['deleted_at'] = deletedAt;
+    data['singateur'] = singateur;
+    data['code'] = code;
+    data['virification'] = virification;
+    data['contry'] = contry;
+    data['adresse'] = adresse;
+    data['fax'] = fax;
+    data['POBOX'] = pOBOX;
     return data;
   }
 }

@@ -33,13 +33,13 @@ class check {
   );
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['CER_SERIAL'] = this.cERSERIAL;
-    data['APPLICIANT_ID'] = this.aPPLICIANTID;
-    data['APPLICATION_STATUS'] = this.statu;
-    data['PAYMENT_LINK'] = this.pAYMENTLINK;
-    data['PAYMENT_ERROR'] = this.pAYMENTERROR;
-    data['CER_ID'] = this.cERID;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['CER_SERIAL'] = cERSERIAL;
+    data['APPLICIANT_ID'] = aPPLICIANTID;
+    data['APPLICATION_STATUS'] = statu;
+    data['PAYMENT_LINK'] = pAYMENTLINK;
+    data['PAYMENT_ERROR'] = pAYMENTERROR;
+    data['CER_ID'] = cERID;
     data['data'] = this.data;
     return data;
   }

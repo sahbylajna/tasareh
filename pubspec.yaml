@@ -107,7 +107,10 @@ flutter:
     - assets/logo-modified.png
     - assets/logo.png
     - assets/out.png
-    - assets/loding.gif
+    - assets/ok.json
+    - assets/up.json
+    - assets/upl.json
+    - assets/loading.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

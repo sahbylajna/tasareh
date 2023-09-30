@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'package:tasareeh/login.dart';
 
@@ -40,12 +39,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
   // GlobalKey<State> _dialogKey = GlobalKey<State>();
-  Color _primaryColor = Color.fromARGB(234,176,74,1);
-  Color _accentColor = Color.fromARGB(255, 90, 42, 8);
+  Color primaryColor = Color.fromARGB(234,176,74,1);
+  Color accentColor = Color.fromARGB(255, 90, 42, 8);
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [_primaryColor, _accentColor],
+          colors: [primaryColor, accentColor],
           begin: const FractionalOffset(0, 0),
           end: const FractionalOffset(1.0, 0.0),
           stops: [0.0, 1.0],
@@ -61,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
         duration: 3000,
         splashTransition: SplashTransition.rotationTransition,
 
-            backgroundColor: _accentColor
+            backgroundColor: accentColor
         // duration: Duration(milliseconds: 1200),
         // child: Center(
         //   child: Container(

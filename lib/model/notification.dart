@@ -44,17 +44,17 @@ class notification {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['User_id'] = this.userId;
-    data['demande_id'] = this.demandeId;
-    data['type'] = this.type;
-    data['commenter'] = this.commenter;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['name'] = this.name;
-    data['message'] = this.message;
-    data['date'] = this.date;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['User_id'] = userId;
+    data['demande_id'] = demandeId;
+    data['type'] = type;
+    data['commenter'] = commenter;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['name'] = name;
+    data['message'] = message;
+    data['date'] = date;
     return data;
   }
 }

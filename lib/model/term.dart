@@ -18,11 +18,11 @@ class term {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['term_ar'] = this.termAr;
-    data['term_en'] = this.termEn;
-    data['Conditionar'] = this.conditionar;
-    data['Conditionen'] = this.conditionen;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['term_ar'] = termAr;
+    data['term_en'] = termEn;
+    data['Conditionar'] = conditionar;
+    data['Conditionen'] = conditionen;
     return data;
   }
 }

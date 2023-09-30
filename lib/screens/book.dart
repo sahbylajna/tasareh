@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/model/Demande.dart';
@@ -112,14 +111,12 @@ Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
 
     }));
 
-   if(_list != null){
-     Future.delayed(Duration(seconds: 2), () {
-       if (Navigator.of(context, rootNavigator: true).canPop()) {
-         Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-       }
-     });
-   }
-
+   Future.delayed(Duration(seconds: 2), () {
+     if (Navigator.of(context, rootNavigator: true).canPop()) {
+       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+     }
+   });
+ 
 
 
   }

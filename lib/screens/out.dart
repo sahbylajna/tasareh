@@ -1,9 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tasareeh/api_service.dart';
-import 'package:tasareeh/common/theme_helper.dart';
 import 'package:tasareeh/home.dart';
 import 'package:tasareeh/model/contrie.dart';
 import 'package:tasareeh/model/success.dart';
@@ -132,13 +130,11 @@ class _StepperExampleState extends State<StepperExample> {
     );
       _term = (await ApiService().getterm())!;
     _contrie = (await ApiService().getcontries())!;
-    if(_contrie != null){
-      if (Navigator.of(context, rootNavigator: true).canPop()) {
-        Navigator.of(context, rootNavigator: true).pop();
-        // Close the dialog
-      }
+    if (Navigator.of(context, rootNavigator: true).canPop()) {
+      Navigator.of(context, rootNavigator: true).pop();
+      // Close the dialog
     }
-  }
+    }
   int _index = 0;
     Color _primaryColor = Color.fromARGB(234,176,74,1);
   Color _accentColor = Color.fromARGB(255, 90, 42, 8);
@@ -393,8 +389,7 @@ print(_index);
                               _showDialog(_term);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent, // Transparent background
-                              onPrimary: Colors.white, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
@@ -439,7 +434,7 @@ print(_index);
                                 setState(() {
                                   _EXPORT_COUNTRYa = newValue; // Update the selected value
                                   EXPORT_COUNTRY = newValue!.name; // Update the string value
-                                  print("selected2 " + EXPORT_COUNTRY);
+                                  print("selected2 $EXPORT_COUNTRY");
                                 });
                               },
                               value: _EXPORT_COUNTRYa,
@@ -467,7 +462,7 @@ print(_index);
                                 setState(() {
                                   _ORIGIN_COUNTRYa = newValue; // Update the selected value
                                   ORIGIN_COUNTRY = newValue!.name; // Update the string value
-                                  print("ORIGIN_COUNTRY " + ORIGIN_COUNTRY);
+                                  print("ORIGIN_COUNTRY $ORIGIN_COUNTRY");
                                 });
                               },
                               value: _ORIGIN_COUNTRYa,
@@ -495,7 +490,7 @@ print(_index);
                                 setState(() {
                                   _TRANSIET_COUNTRY = newValue; // Update the selected value
                                   TRANSIET_COUNTRY = newValue!.name; // Update the string value
-                                  print("TRANSIET_COUNTRY " + TRANSIET_COUNTRY);
+                                  print("TRANSIET_COUNTRY $TRANSIET_COUNTRY");
                                 });
                               },
                               value: _TRANSIET_COUNTRY,
@@ -533,8 +528,7 @@ print(_index);
                               _apisend();
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent, // Transparent background
-                              onPrimary: Colors.white, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
@@ -574,7 +568,7 @@ print(_index);
 
     );
   }
-    Future<void>  _showDialog(_term) async {
+    Future<void>  _showDialog(term) async {
 
 
     showDialog(
@@ -582,7 +576,7 @@ print(_index);
       builder: (_) {
         return AlertDialog(
           title: Text(('التعهد')),
-          content: Text(_term!.conditionar),
+          content: Text(term!.conditionar),
           actions: <Widget>[
                Container(
                           decoration: BoxDecoration(
@@ -602,8 +596,7 @@ print(_index);
 
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent, // Transparent background
-                              onPrimary: Colors.white, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
@@ -731,8 +724,7 @@ print(_index);
             (route) => false);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent, // Transparent background
-                              onPrimary: Colors.white, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),

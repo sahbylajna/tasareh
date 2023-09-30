@@ -133,54 +133,54 @@ class Demande {
     if (json['animal'] != null) {
       animal = <Animal>[];
       json['animal'].forEach((v) {
-        animal!.add(new Animal.fromJson(v));
+        animal!.add(Animal.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['client_id'] = this.clientId;
-    data['CER_TYPE'] = this.cERTYPE;
-    data['CER_LANG'] = this.cERLANG;
-    data['COMP_ID'] = this.cOMPID;
-    data['EUSER_QID'] = this.eUSERQID;
-    data['EXP_NAME'] = this.eXPNAME;
-    data['EXP_TEL'] = this.eXPTEL;
-    data['EXP_QID'] = this.eXPQID;
-    data['EXP_FAX'] = this.eXPFAX;
-    data['EXP_COUNTRY'] = this.eXPCOUNTRY;
-    data['IMP_NAME'] = this.iMPNAME;
-    data['IMP_ADDRESS'] = this.iMPADDRESS;
-    data['IMP_FAX'] = this.iMPFAX;
-    data['IMP_TEL'] = this.iMPTEL;
-    data['IMP_POBOX'] = this.iMPPOBOX;
-    data['IMP_COUNTRY'] = this.iMPCOUNTRY;
-    data['ORIGIN_COUNTRY'] = this.oRIGINCOUNTRY;
-    data['SHIPPING_PLACE'] = this.sHIPPINGPLACE;
-    data['ENTERY_PORT'] = this.eNTERYPORT;
-    data['EXPECTED_ARRIVAL_DATE'] = this.eXPECTEDARRIVALDATE;
-    data['TRANSPORT'] = this.tRANSPORT;
-    data['SHIPPING_DATE'] = this.sHIPPINGDATE;
-    data['APPLICANT_NAME'] = this.aPPLICANTNAME;
-    data['APPLICANT_TEL'] = this.aPPLICANTTEL;
-    data['EXP_NATIONALITY'] = this.eXPNATIONALITY;
-    data['EXP_PASSPORT_NUM'] = this.eXPPASSPORTNUM;
-    data['accepted'] = this.accepted;
-    data['reson'] = this.reson;
-    data['files'] = this.files;
-    data['CER_SERIAL'] = this.cERSERIAL;
-    data['Pledge'] = this.pledge;
-    data['EXP_CER_SERIAL'] = this.eXPCERSERIAL;
-    data['pdf'] = this.pdf;
-    data['linkpayment'] = this.linkpayment;
-    data['type'] = this.type;
-    data['date'] = this.date;
-    if (this.animal != null) {
-      data['animal'] = this.animal!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['client_id'] = clientId;
+    data['CER_TYPE'] = cERTYPE;
+    data['CER_LANG'] = cERLANG;
+    data['COMP_ID'] = cOMPID;
+    data['EUSER_QID'] = eUSERQID;
+    data['EXP_NAME'] = eXPNAME;
+    data['EXP_TEL'] = eXPTEL;
+    data['EXP_QID'] = eXPQID;
+    data['EXP_FAX'] = eXPFAX;
+    data['EXP_COUNTRY'] = eXPCOUNTRY;
+    data['IMP_NAME'] = iMPNAME;
+    data['IMP_ADDRESS'] = iMPADDRESS;
+    data['IMP_FAX'] = iMPFAX;
+    data['IMP_TEL'] = iMPTEL;
+    data['IMP_POBOX'] = iMPPOBOX;
+    data['IMP_COUNTRY'] = iMPCOUNTRY;
+    data['ORIGIN_COUNTRY'] = oRIGINCOUNTRY;
+    data['SHIPPING_PLACE'] = sHIPPINGPLACE;
+    data['ENTERY_PORT'] = eNTERYPORT;
+    data['EXPECTED_ARRIVAL_DATE'] = eXPECTEDARRIVALDATE;
+    data['TRANSPORT'] = tRANSPORT;
+    data['SHIPPING_DATE'] = sHIPPINGDATE;
+    data['APPLICANT_NAME'] = aPPLICANTNAME;
+    data['APPLICANT_TEL'] = aPPLICANTTEL;
+    data['EXP_NATIONALITY'] = eXPNATIONALITY;
+    data['EXP_PASSPORT_NUM'] = eXPPASSPORTNUM;
+    data['accepted'] = accepted;
+    data['reson'] = reson;
+    data['files'] = files;
+    data['CER_SERIAL'] = cERSERIAL;
+    data['Pledge'] = pledge;
+    data['EXP_CER_SERIAL'] = eXPCERSERIAL;
+    data['pdf'] = pdf;
+    data['linkpayment'] = linkpayment;
+    data['type'] = type;
+    data['date'] = date;
+    if (animal != null) {
+      data['animal'] = animal!.map((v) => v.toJson()).toList();
     }
     return data;
   }

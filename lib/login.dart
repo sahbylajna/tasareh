@@ -3,7 +3,6 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tasareeh/common/theme_helper.dart';
 import 'package:tasareeh/model/token.dart';
@@ -73,13 +72,11 @@ print(prefs.getString('first_name'));
         );
       },
     );
-      if(_contrie != null){
-      if (Navigator.of(context, rootNavigator: true).canPop()) {
-        Navigator.of(context, rootNavigator: true).pop();
-        // Close the dialog
-      }
+    if (Navigator.of(context, rootNavigator: true).canPop()) {
+      Navigator.of(context, rootNavigator: true).pop();
+      // Close the dialog
     }
-
+  
 }
 
   }
