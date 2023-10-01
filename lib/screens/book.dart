@@ -4,7 +4,9 @@ import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/model/Demande.dart';
 import 'package:tasareeh/screens/constants.dart';
 import 'package:tasareeh/screens/home.dart';
+import 'package:tasareeh/screens/payment.dart';
 import 'package:tasareeh/screens/show.dart';
+import 'package:tasareeh/widgets/PDFViewerScreen.dart';
 
 import '../home.dart';
 class BookContent extends StatefulWidget{
@@ -220,7 +222,38 @@ Column(
         Text(_list[index].accepted == "3" ? 'تم قبول طلبك من الثروة الحيوانية' : ' ' ),
 
 
-            Text(_list[index].accepted == "5" ? 'تحميل الكتاب / الدفع' : ' ' ),
+      Text(_list[index].accepted == "5" ? 'تم قبول طلبك من الثروة الحيوانية' : ' ' ),   
+
+  if(_list[index].pdf != null && _list[index].accepted.toString() == "3")
+            IconButton(
+                icon: Icon(Icons.download, color: Color.fromARGB(255, 153, 117, 96)),
+                onPressed: () async {
+                        String pdfUrl = '${_list[index].pdf}'; // Replace with your PDF URL
+
+                  Navigator.of(context).push(
+  MaterialPageRoute(
+    builder: (context) => PDFViewerScreen(pdfUrl: 'https://docs.google.com/viewer?url='+'${pdfUrl}'),
+  ),
+);
+
+                }
+              ),
+
+
+             if(_list[index].linkpayment != null && _list[index].accepted.toString() == "5")
+            IconButton(
+                icon: Icon(Icons.payment, color: Color.fromARGB(255, 153, 117, 96)),
+                onPressed: () async {
+                        String pdfUrl = '${_list[index].linkpayment}'; // Replace with your PDF URL
+
+                  Navigator.of(context).push(
+  MaterialPageRoute(
+    builder: (context) => PaymentScreen(pdfUrl: '${pdfUrl}'),
+  ),
+);
+
+                }
+              ),            
 
 
              ],

@@ -374,9 +374,7 @@ SizedBox(
 
 OutlinedButton(
         onPressed: () {
-           Navigator.of(context).pushAndRemoveUntil(
-                 MaterialPageRoute(builder: (context) => OutafterContent()),
-                     (route) => true);
+             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => OutafterContent()));
         },
 
    style: OutlinedButton.styleFrom(
@@ -499,9 +497,7 @@ SizedBox(
 
  OutlinedButton(
         onPressed: () {
-          Navigator.of(context).pushAndRemoveUntil(
-                 MaterialPageRoute(builder: (context) => BookContent()),
-                     (route) => true);
+             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BookContent()));
         },
 
    style: OutlinedButton.styleFrom(

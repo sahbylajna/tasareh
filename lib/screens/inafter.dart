@@ -517,7 +517,7 @@ print(_index);
                               _showDialog(_term);
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.white, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
@@ -656,7 +656,7 @@ print(_index);
                               _apisend();
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.white, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
@@ -724,7 +724,7 @@ print(_index);
 
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.white, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
@@ -867,7 +867,7 @@ print(_index);
             (route) => false);
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.white, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),

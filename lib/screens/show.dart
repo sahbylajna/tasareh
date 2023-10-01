@@ -184,7 +184,9 @@ print(filePath);
 
                             
                             
-               Text(widget.paramValue.accepted.toString() == "0" ? 'تم رفض طلبك من اللجنة المنضمة لسباق الهجن' : ' ' ),
+               Text(widget.paramValue.accepted.toString() == "0" ? 'تم الرفض من اللجنة المنظمة  لسباق الهجن و ذلك ل : ${widget.paramValue.reson} ': ' ' ),
+               
+
         Text(widget.paramValue.accepted.toString() == "1" ? 'تم قبول طلبك من اللجنة المنضمة لسباق الهجن' : ' ' ),
  Text(widget.paramValue.accepted.toString() == "null" ? 'قيد المراجعة  من اللجنة المنضمة لسباق الهجن ': ' ' ),
 
@@ -220,7 +222,7 @@ print(filePath);
 
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.white, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
@@ -262,7 +264,7 @@ print(filePath);
 
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.white, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
