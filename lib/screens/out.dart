@@ -707,16 +707,25 @@ print(_index);
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children:  [
-
+Lottie.asset('assets/ok.json'),
               SizedBox(height: 15),
               Text('تم إرسال طلبك بنجاح')
               ,
 
 
-                         ElevatedButton(
+                          Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [_primaryColor, _accentColor], // Start and end colors
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30), // Rounded corners
+                          ),
+                          child: ElevatedButton(
                             onPressed: () {
                               // Open a dialog to add a new row
-   if (Navigator.of(context, rootNavigator: true).canPop()) {
+                              if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
     }
     Navigator.of(context).pushAndRemoveUntil(
@@ -729,10 +738,11 @@ print(_index);
                               elevation: 0, // No shadow
                             ),
                             child: Text(
-                              'عودة للصفحة الرئيسية'.toUpperCase(),
+                               'عودة للصفحة الرئيسية'.toUpperCase(),
                               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ),
+                        ),
             ],
           ),
         ),

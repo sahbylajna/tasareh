@@ -933,7 +933,7 @@ TextFormField(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children:  [
-
+Lottie.asset('assets/ok.json'),
               SizedBox(height: 15),
               Text('تم إرسال طلبك بنجاح'),
 

@@ -103,7 +103,8 @@ showAlertDialog(BuildContext context) async {
            child: Column(
              mainAxisSize: MainAxisSize.min,
              children: [
-               Lottie.network(    'https://lottie.host/66e2a97f-0826-425b-bca6-d7e1ee74f757/YmBvSTB48I.json'),               SizedBox(height: 15),
+               Lottie.network(    'https://lottie.host/66e2a97f-0826-425b-bca6-d7e1ee74f757/YmBvSTB48I.json'),  
+                            SizedBox(height: 15),
                Text('...تحميل'),
 
              ],
@@ -146,7 +147,7 @@ Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
         textDirection: TextDirection.rtl,
         child:Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('اللجنة المنضمة لسباق الهجن')),
+          title: Center(child: Text('الاشعارات')),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(40.0),

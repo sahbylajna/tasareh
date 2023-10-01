@@ -107,7 +107,7 @@ class _AccountContentState extends State<AccountContent> {
       textDirection: TextDirection.rtl,
       child:Scaffold(
            appBar:AppBar(
-             title: Center(child: Text('اللجنة المنضمة لسباق الهجن')),
+             title: Center(child: Text('الملف الشخصي')),
              shape: RoundedRectangleBorder(
                borderRadius: BorderRadius.vertical(
                  bottom: Radius.circular(40.0),
