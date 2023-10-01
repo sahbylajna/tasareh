@@ -222,7 +222,7 @@ print(filePath);
 
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.white, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
@@ -264,7 +264,7 @@ print(filePath);
 
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.white, // Text color
+                              foregroundColor: Colors.white, backgroundColor: Colors.transparent,  // Text color
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                               elevation: 0, // No shadow
                             ),
