@@ -1,19 +1,16 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PDFViewerScreen extends StatefulWidget {
+class PaymentScreen extends StatefulWidget {
     final  String pdfUrl;
 
-  PDFViewerScreen({required this.pdfUrl});
+  PaymentScreen({required this.pdfUrl});
 
   @override
-  _PDFViewerScreenState createState() => _PDFViewerScreenState();
+  _PaymentScreenState createState() => _PaymentScreenState();
 }
 
- class _PDFViewerScreenState extends State<PDFViewerScreen> {
+ class _PaymentScreenState extends State<PaymentScreen> {
   late WebViewController controller;
  
 
@@ -33,14 +30,11 @@ class PDFViewerScreen extends StatefulWidget {
       );
   }
 
-
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:  AppBar(
-              title: Center(child: Text('الكتاب')),
+              title: Center(child: Text('الدفع')),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(40.0),
@@ -63,9 +57,7 @@ class PDFViewerScreen extends StatefulWidget {
             ),
       body:  WebViewWidget(
         controller: controller,
-        
       ),
-      
     );
   }
 

@@ -70,6 +70,10 @@ dependencies:
   flutter_file_downloader: ^1.1.0+1
   url_launcher: ^6.1.14
   flutter_cached_pdfview: ^0.4.2
+  webview_flutter: ^4.3.0
+  dio: ^5.3.3
+  flutter_downloader: ^1.11.3
+  flutter_inappwebview: ^5.7.2+3
 
 
 dev_dependencies:

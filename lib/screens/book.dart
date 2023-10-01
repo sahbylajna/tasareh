@@ -214,10 +214,13 @@ Column(
 
                Text(_list[index].accepted == "0" ? 'تم رفض طلبك من اللجنة المنضمة لسباق الهجن' : ' ' ),
         Text(_list[index].accepted == "1" ? 'تم قبول طلبك من اللجنة المنضمة لسباق الهجن' : ' ' ),
- Text(_list[index].accepted == "null" ? 'قيد المعالجة': ' ' ),
+ Text(_list[index].accepted == "null" ? 'قيد المراجعة  من اللجنة المنضمة لسباق الهجن ': ' ' ),
 
         Text(_list[index].accepted == "2" ? 'تم رفض طلبك من الثروة الحيوانية ' : ' ' ),
         Text(_list[index].accepted == "3" ? 'تم قبول طلبك من الثروة الحيوانية' : ' ' ),
+
+
+            Text(_list[index].accepted == "5" ? 'تحميل الكتاب / الدفع' : ' ' ),
 
 
              ],
@@ -236,7 +239,7 @@ Column(
         MaterialPageRoute(
           builder: (context) => showContent(paramValue: _list[index]), // Pass the parameter
         ),
-            (route) => false,
+            (route) => true,
       );
         print("Click event on x");
     },
