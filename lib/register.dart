@@ -203,12 +203,13 @@ SizedBox(height: 20.0),
                           child: TextFormField(
                             decoration: ThemeHelper().textInputDecoration(
                                 "العنوان",
-                                "أدخل رقم id"),
-                                controller: ud,
+                                "أدخل  العنوان"),
+                                controller: adresse,
                             keyboardType: TextInputType.number,
 
                           ),
                         ),
+
 
 SizedBox(height: 20.0),
 
