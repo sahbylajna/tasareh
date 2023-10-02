@@ -48,12 +48,5 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
-<key>CFBundleIcons</key>
-<dict>
-    <key>CFBundlePrimaryIcon</key>
-    <dict>
-        <key>CFBundleIconName</key>
-        <string>AppIcon</string> <!-- Make sure this matches your asset catalog name -->
-    </dict>
-</dict>
+
 </plist>
