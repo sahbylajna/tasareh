@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'لوحة تحكم التصاريح',
-
+      debugShowMaterialGrid: false,
       theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: _primaryColor,
