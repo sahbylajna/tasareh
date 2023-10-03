@@ -769,7 +769,7 @@ TextFormField(
 
     Future<void>  _showDialog(term) async {
 
-
+bool checkboxValue =false ;
     showDialog(
       context: context,
       builder: (_) {
@@ -777,6 +777,43 @@ TextFormField(
           title: Text(('التعهد')),
           content: Text(term!.conditionar),
           actions: <Widget>[
+    FormField<bool>(
+                          builder: (state) {
+                            return Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: checkboxValue,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            checkboxValue = value!;
+                                            state.didChange(value);
+                                          });
+                                        }),
+                                    Text("أوافق على جميع الشروط والأحكام.", style: TextStyle(color: Colors.grey),),
+                                  ],
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    state.errorText ?? '',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(color: Theme.of(context).colorScheme.error,fontSize: 12,),
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          validator: (value) {
+                            if (!checkboxValue) {
+                              return 'تحتاج إلى قبول الشروط والأحكام';
+                            } else {
+
+                            }
+                            return null;
+                          },
+                        ),
                Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -788,11 +825,14 @@ TextFormField(
                           ),
                           child: ElevatedButton(
                             onPressed: () {
-                              // Open a dialog to add a new row
-                              if (Navigator.of(context, rootNavigator: true).canPop()) {
+                              if (checkboxValue) {
+                                                    if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
     }
-
+ 
+                              }
+                              // Open a dialog to add a new row
+         
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color

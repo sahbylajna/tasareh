@@ -11,6 +11,8 @@ import 'package:tasareeh/register.dart';
 import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/model/contrie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasareeh/screens/constants.dart';
+import 'package:tasareeh/screens/home.dart';
 import 'home.dart';
 import 'widgets/header_widget.dart';
 
@@ -29,10 +31,15 @@ class _LoginPageState extends State<LoginPage>{
     Contries? _selectedValue;
  Color _primaryColor = Color.fromARGB(234,176,74,1);
   Color _accentColor = Color.fromARGB(255, 90, 42, 8);
-
+ late bool _isLoading =true;
 @override
   void initState() {
     super.initState();
+     Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     Future.delayed(Duration.zero, () {
       _getData(context);
     });
@@ -89,7 +96,30 @@ print(prefs.getString('first_name'));
       textDirection: TextDirection.rtl,
       child:Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body:_isLoading
+            ? SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: _headerHeight,
+              child: HeaderWidget(_headerHeight, true, Icons.login_rounded), //let's create a common header widget
+            ),
+            SafeArea(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  margin: EdgeInsets.fromLTRB(20, 10, 20, 10),// This will be the login form
+                child: Column(
+                  children: [
+                    Text(
+                      'مرحبًا',
+                      style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'سجل الدخول إلى حسابك',
+                      style: TextStyle(color: Colors.grey),
+                    ),]
+                )))]))
+            : SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(

@@ -51,12 +51,42 @@ class ThemeHelper{
           c2,
         ],
       ),
-      color: const Color.fromARGB(234,176,74,1),
+      color:  Colors.transparent,
       borderRadius: BorderRadius.circular(30),
     );
   }
 
+
+    BoxDecoration buttonBoxDecorationsmol(BuildContext context, [String color1 = "", String color2 = ""]) {
+    Color c1 = Color.fromARGB(234,176,74,1);
+    Color c2 = Color.fromARGB(255, 90, 42, 8);
+    if (color1.isEmpty == false) {
+      c1 = Color.fromARGB(234,176,74,1);
+    }
+    if (color2.isEmpty == false) {
+      c2 =  Color.fromARGB(255, 90, 42, 8);
+    }
+
+    return BoxDecoration(
+      boxShadow: [
+        BoxShadow(color: Colors.black26, offset: Offset(0,2), blurRadius: 5.0)
+      ],
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0.0, 1.0],
+        colors: [
+          c1,
+          c2,
+        ],
+      ),
+      color:  Colors.transparent,
+      borderRadius: BorderRadius.circular(2),
+    );
+  }
+
   ButtonStyle buttonStyle() {
+     Color c1 = Color.fromARGB(234,176,74,1);
     return ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
@@ -64,7 +94,7 @@ class ThemeHelper{
         ),
       ),
       minimumSize: MaterialStateProperty.all(Size(50, 50)),
-      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+      backgroundColor: MaterialStateProperty.all(c1),
       shadowColor: MaterialStateProperty.all(Colors.transparent),
     );
   }

@@ -702,7 +702,7 @@ print(_index);
 
     );
   }  Future<void>  _showDialog(term) async {
-
+bool isChecked = true;
 
     showDialog(
       context: context,
@@ -711,6 +711,43 @@ print(_index);
           title: Text(('التعهد')),
           content: Text(term!.conditionar),
           actions: <Widget>[
+       FormField<bool>(
+                          builder: (state) {
+                            return Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: isChecked,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            isChecked = value!;
+                                            state.didChange(value);
+                                          });
+                                        }),
+                                    Text("أوافق على التعهد.", style: TextStyle(color: Colors.grey),),
+                                  ],
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    state.errorText ?? '',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(color: Theme.of(context).colorScheme.error,fontSize: 12,),
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          validator: (value) {
+                            if (!isChecked) {
+                              return 'تحتاج إلى قبول التعهد ';
+                            } else {
+
+                            }
+                            return null;
+                          },
+                        ),
              Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -723,9 +760,12 @@ print(_index);
                           child: ElevatedButton(
                             onPressed: () {
                               // Open a dialog to add a new row
-                              if (Navigator.of(context, rootNavigator: true).canPop()) {
+                        if (isChecked) {
+                                                    if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
     }
+ 
+                              }
 
                             },
                             style: ElevatedButton.styleFrom(

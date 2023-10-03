@@ -569,7 +569,7 @@ print(_index);
     );
   }
     Future<void>  _showDialog(term) async {
-
+bool isChecked = true;
 
     showDialog(
       context: context,
@@ -578,6 +578,16 @@ print(_index);
           title: Text(('التعهد')),
           content: Text(term!.conditionar),
           actions: <Widget>[
+    //                 Checkbox(
+    //   checkColor: Colors.white,
+     
+    //   value: isChecked,
+    //   onChanged: (bool? value) {
+    //     setState(() {
+    //       isChecked = value!;
+    //     });
+    //   },
+    // ),
                Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -590,10 +600,12 @@ print(_index);
                           child: ElevatedButton(
                             onPressed: () {
                               // Open a dialog to add a new row
-                              if (Navigator.of(context, rootNavigator: true).canPop()) {
+                  if (isChecked) {
+                                                    if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
     }
-
+ 
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white, backgroundColor: Colors.transparent,  // Text color

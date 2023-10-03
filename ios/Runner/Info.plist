@@ -52,4 +52,5 @@
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pick images</string>
 </dict>
+
 </plist>

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tasareeh/common/theme_helper.dart';
 import 'package:tasareeh/model/success.dart';
 import 'package:tasareeh/term.dart';
@@ -203,12 +204,13 @@ SizedBox(height: 20.0),
                           child: TextFormField(
                             decoration: ThemeHelper().textInputDecoration(
                                 "العنوان",
-                                "أدخل رقم id"),
-                                controller: ud,
+                                "أدخل  العنوان"),
+                                controller: adresse,
                             keyboardType: TextInputType.number,
 
                           ),
                         ),
+
 
 SizedBox(height: 20.0),
 
@@ -337,6 +339,8 @@ width: screen.width * 0.45,
 
                        Row(
                         children: [
+                          Text("الصورة الامامية لل id"),
+                          SizedBox(width: 4.0),
  Container(
    decoration: ThemeHelper().buttonBoxDecoration(context),
                           child:ElevatedButton(
@@ -346,7 +350,8 @@ width: screen.width * 0.45,
                         //update UI
                       });
                   },
-                  child: Text("الصورة الامامية لل id")
+                  child:  Icon(Icons.photo, color: Colors.white),
+
                 ),
 
 
@@ -355,17 +360,37 @@ width: screen.width * 0.45,
 //  image == null?Container():Image.file(File(image!.path),
 // width: _screen.width * 0.40,
 //  height: _screen.width * 0.20,)
+     SizedBox(width: 4.0),
+
+Container(
+   decoration: ThemeHelper().buttonBoxDecoration(context),
+                          child:ElevatedButton(
+                  onPressed: () async {
+                      image = await picker.pickImage(source: ImageSource.camera);
+                      setState(() {
+                        //update UI
+                      });
+                  },
+                  child:  Icon(Icons.camera, color: Colors.white),
+
+                ),
 
 
 
+                              ),
 
                         ],
                        ),
      SizedBox(height: 20.0),
+
+
+
                        Row(
                         children: [
+                          Text("الصورة الخلفية لل id"),
+                          SizedBox(width: 4.0),
  Container(
-   decoration: ThemeHelper().buttonBoxDecoration(context),
+   decoration: ThemeHelper().buttonBoxDecorationsmol(context),
                           child:ElevatedButton(
                   onPressed: () async {
                       image2 = await picker2.pickImage(source: ImageSource.gallery);
@@ -373,7 +398,25 @@ width: screen.width * 0.45,
                         //update UI
                       });
                   },
-                  child: Text("الصورة الخلفية لل id")
+                  child: Icon(Icons.photo, color: Colors.white),
+                ),
+
+
+
+                              ),
+                                 SizedBox(width: 3.0),
+                              Container(
+   decoration: ThemeHelper().buttonBoxDecorationsmol(context),
+                          child:ElevatedButton(
+                  onPressed: () async {
+                      image2 = await picker2.pickImage(source: ImageSource.camera);
+                      setState(() {
+                        //update UI
+                      });
+                  },
+                  child: 
+                  Icon(Icons.camera, color: Colors.white)
+                  
                 ),
 
 
@@ -482,18 +525,45 @@ width: screen.width * 0.45,
                             ),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
+                                
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+              Lottie.asset('assets/up.json'),
+
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+
                                  final bytes = File(image!.path).readAsBytesSync();
                           String base64Image1 =  "data:image/png;base64,${base64Encode(bytes)}";
                              final bytes2 = File(image2!.path).readAsBytesSync();
                           String base64Image2 =  "data:image/png;base64,${base64Encode(bytes2)}";
 
+print(base64Image1);
 
+print(base64Image2);
 
 
  Success success =  (await ApiService().register(fistname.text,lastname.text,phone.text,password.text,email.text,ud.text,_selectedValue!.id.toString(),_selectedValue1!.id.toString(),base64Image1.toString(),base64Image2.toString(),'0','0','0'))!;
+print(success.message);
 
-
- if(success.message == 'success'){
+ if(success.message != 'success'){
+  if (Navigator.of(context, rootNavigator: true).canPop()) {
+    Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+  }
                                            showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -503,6 +573,9 @@ width: screen.width * 0.45,
                                     },
                                   );
                                     }else{
+                                      if (Navigator.of(context, rootNavigator: true).canPop()) {
+    Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+  }
                                             final user = await SharedPreferences.getInstance();
                                     user.setString('id',success.id.toString());
 Navigator.of(context).pushAndRemoveUntil(
