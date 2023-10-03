@@ -124,56 +124,78 @@ Future<term?> getterm() async {
   }
 
 
-  Future<Success?> register(String firstName, String lastName, String phone, String password, String email, String ud, String contryId,String contry, String photoUdFrent, String photoUdBack,String adresse,String fax,String POBOX) async {
-    log('e.toString()1h');
-     log(firstName);
-     log(lastName);
-     log(phone);
-     log(password);
-     log(email);
-     log(ud);
-     log(contry);
-     log(contryId);
-     log(photoUdFrent);
-     log(photoUdBack);
 
-    try {
 
-      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.register);
+Future<Success?> register(String firstName, String lastName, String phone, String password, String email, String ud, String contryId, String contry, String photoUdFrent, String photoUdBack, String adresse, String fax, String POBOX) async {
+  log('e.toString()1h');
+  print(firstName);
+  print(lastName);
+  print(phone);
+  print(password);
+  print(email);
+  print(ud);
+  print(contry);
+  print(contryId);
 
-      var response = await http.post(url,
-       headers: <String, String>{
-      'Content-Type': 'application/json',
-    },
-    body: jsonEncode( <String, String>{
+  try {
+    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.register);
+    log(url.toString());
+
+    final Map<String, String> data = {
       'first_name': firstName,
       'last_name': lastName,
       'phone': phone,
       'password': password,
-      'email':email,
+      'email': email,
       'ud': ud,
       'contry_id': contryId,
       'contry': contry,
       'adresse': adresse,
       'fax': fax,
       'POBOX': POBOX,
-      'photo_ud_frent': photoUdFrent.toString(),
-      'photo_ud_back': photoUdBack.toString(),
-    }),
+      'photo_ud_frent': photoUdFrent,
+      'photo_ud_back': photoUdBack,
+    };
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(data),
     );
 
-      if (response.statusCode == 200) {
-        Success model = successFromJson(response.body);
-      //  log(model.message.toString());
-        return model;
-      }
-       log(contry);
-    } catch (e) {
-        print(e);
+    log(response.statusCode.toString());
 
+    if (response.statusCode == 200) {
+      final model = successFromJson(response.body);
+      // log(model.message.toString());
+      return model;
+    } else {
+      log('Failed with status code: ${response.statusCode}');
     }
-    return null;
+  } catch (e, stackTrace) {
+    log('Exception occurred: $e', error: e, stackTrace: stackTrace);
   }
+
+  return null;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

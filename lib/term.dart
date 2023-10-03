@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tasareeh/Otp.dart';
 import 'package:tasareeh/model/term.dart';
 import 'package:tasareeh/widgets/header_widget.dart';
@@ -218,6 +219,7 @@ ElevatedButton(                     // FlatButton widget is used to make a text 
                   },             // function used to perform after pressing the button
                   child: Text('إلغاء'),
                 ),
+
                 ElevatedButton(
 
                   onPressed: () async {
@@ -256,13 +258,39 @@ style: ThemeHelper().buttonStyle(),
                                   child: Text('تسجيل '.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                                 ),
                                 onPressed: () async {
+                                   showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+              Lottie.asset('assets/up.json'),
+
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
 if(imageEncoded.isNotEmpty){
          final user = await SharedPreferences.getInstance();
 Success? success = await ApiService().signature(imageEncoded,user.get('id'));
 
   if(success?.message.toString() == 'success'){
+      if (Navigator.of(context, rootNavigator: true).canPop()) {
+    Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+  }
                  Navigator.push(context, MaterialPageRoute(builder: (context) => Otp()));
   }else{
+      if (Navigator.of(context, rootNavigator: true).canPop()) {
+    Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+  }
  show(context);
   }
 }else{

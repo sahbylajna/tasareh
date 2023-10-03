@@ -711,16 +711,43 @@ bool isChecked = true;
           title: Text(('التعهد')),
           content: Text(term!.conditionar),
           actions: <Widget>[
-    //                 Checkbox(
-    //   checkColor: Colors.white,
-     
-    //   value: isChecked,
-    //   onChanged: (bool? value) {
-    //     setState(() {
-    //       isChecked = value!;
-    //     });
-    //   },
-    // ),
+       FormField<bool>(
+                          builder: (state) {
+                            return Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: isChecked,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            isChecked = value!;
+                                            state.didChange(value);
+                                          });
+                                        }),
+                                    Text("أوافق على التعهد.", style: TextStyle(color: Colors.grey),),
+                                  ],
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    state.errorText ?? '',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(color: Theme.of(context).colorScheme.error,fontSize: 12,),
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          validator: (value) {
+                            if (!isChecked) {
+                              return 'تحتاج إلى قبول التعهد ';
+                            } else {
+
+                            }
+                            return null;
+                          },
+                        ),
              Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(

@@ -769,7 +769,7 @@ TextFormField(
 
     Future<void>  _showDialog(term) async {
 
-bool isChecked =true ;
+bool checkboxValue =false ;
     showDialog(
       context: context,
       builder: (_) {
@@ -777,19 +777,43 @@ bool isChecked =true ;
           title: Text(('التعهد')),
           content: Text(term!.conditionar),
           actions: <Widget>[
-    //         Checkbox(
-    //   checkColor: Colors.white,
-     
-      
-    //   onChanged: (bool value) {
-    //          print(value);
-    //     setState(() {
-    //       isChecked = value;
-    //     });
-   
-    //   },
-    //   value: isChecked,
-    // ),
+    FormField<bool>(
+                          builder: (state) {
+                            return Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: checkboxValue,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            checkboxValue = value!;
+                                            state.didChange(value);
+                                          });
+                                        }),
+                                    Text("أوافق على جميع الشروط والأحكام.", style: TextStyle(color: Colors.grey),),
+                                  ],
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    state.errorText ?? '',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(color: Theme.of(context).colorScheme.error,fontSize: 12,),
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          validator: (value) {
+                            if (!checkboxValue) {
+                              return 'تحتاج إلى قبول الشروط والأحكام';
+                            } else {
+
+                            }
+                            return null;
+                          },
+                        ),
                Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -801,7 +825,7 @@ bool isChecked =true ;
                           ),
                           child: ElevatedButton(
                             onPressed: () {
-                              if (isChecked) {
+                              if (checkboxValue) {
                                                     if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
     }

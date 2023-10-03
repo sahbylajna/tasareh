@@ -232,7 +232,7 @@ if(success.errors.toString() == "errors"){
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: Color.fromARGB(234,176,74,1),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -272,7 +272,7 @@ if(success.errors.toString() == "errors"){
 //                 borderSide: BorderSide(width: 2, color: Colors.black12),
 //                 borderRadius: BorderRadius.circular(12)),
 //             focusedBorder: OutlineInputBorder(
-//                 borderSide: BorderSide(width: 2, color: Colors.purple),
+//                 borderSide: BorderSide(width: 2, color: Color.fromARGB(234,176,74,1)),
 //                 borderRadius: BorderRadius.circular(12)),
 //           ),
 //         ),
