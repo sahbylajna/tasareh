@@ -791,7 +791,7 @@ bool checkboxValue =false ;
                                             state.didChange(value);
                                           });
                                         }),
-                                    Text("أوافق على جميع الشروط والأحكام.", style: TextStyle(color: Colors.grey),),
+                                    Text("أوافق على التعهد.", style: TextStyle(color: Colors.grey),),
                                   ],
                                 ),
                                 Container(

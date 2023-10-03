@@ -205,7 +205,8 @@ Container(
         title: Text('إمضاء'),
         content: Column(mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: [SfSignaturePad(
+        children: [
+          SfSignaturePad(
 key: _signaturePadKey,
                       backgroundColor: Colors.white,
                       strokeColor: Colors.black,
