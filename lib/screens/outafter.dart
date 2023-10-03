@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/home.dart';
+import 'package:tasareeh/model/Demande.dart';
 import 'package:tasareeh/model/check.dart';
 import 'package:tasareeh/model/contrie.dart';
 import 'package:tasareeh/model/success.dart';
@@ -124,6 +125,7 @@ class StepperExample extends StatefulWidget {
 class _StepperExampleState extends State<StepperExample> {
       late List<Contries> _contrie = [];
        term? _term ;
+          late List<Demande> _list = [];
  @override
   void initState() {
     super.initState();
@@ -154,6 +156,7 @@ class _StepperExampleState extends State<StepperExample> {
         );
       },
     );
+     _list = (await ApiService().getimportations())!;
       _term = (await ApiService().getterm())!;
     _contrie = (await ApiService().getcontries())!;
     if (Navigator.of(context, rootNavigator: true).canPop()) {
@@ -166,9 +169,8 @@ class _StepperExampleState extends State<StepperExample> {
   Color _accentColor = Color.fromARGB(255, 90, 42, 8);
 bool hide = false;
   Contries? _EXPORT_COUNTRY,_ORIGIN_COUNTRY;
-
+Demande? IMP_CER_SERIAL;
   Contries? _EXPORT_COUNTRYa,_ORIGIN_COUNTRYa,_TRANSIET_COUNTRY;
-  TextEditingController IMP_CER_SERIAL = TextEditingController();
 
   TextEditingController SHIPPING_DATE = TextEditingController();
   final GlobalKey<State> _statefulBuilderKey = GlobalKey<State>();
@@ -242,79 +244,7 @@ print(_index);
       },
 
   steps: <Step>[
-        Step(
-          title: const Text('البحث'),
-          content: Container(
-
-            child: SingleChildScrollView( // Wrap your content with SingleChildScrollView
-                child:  Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-
-                        SizedBox(
-                          height: 10, // <-- SEE HERE
-                        ),
-
-
-
- TextFormField(
-                          controller: IMP_CER_SERIAL,
-                          decoration: InputDecoration(
-                              label: Text('معرفه الدخول'),
-                              border: OutlineInputBorder()),
-                        ),
-
-
-                        const SizedBox(
-                          height: 10,
-                        ),
-
-
- Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [_primaryColor, _accentColor], // Start and end colors
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                            borderRadius: BorderRadius.circular(30), // Rounded corners
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Open a dialog to add a new row
-                              checkd();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent,  // Text color
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-                              elevation: 0, // No shadow
-                            ),
-                            child: Text(
-                              'البحث'.toUpperCase(),
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-                      ]
-                  ),
-                  )
-                  ),
-          ),
-        ),
+      
          Step(
           title: const Text('البيانات العامة'),
           content: Container(
@@ -327,47 +257,6 @@ print(_index);
 
                         SizedBox(
                           height: 10, // <-- SEE HERE
-                        ),
-
-
-
- TextFormField(
-                          controller: IMP_CER_SERIAL,
-                          decoration: InputDecoration(
-                              label: Text('معرفه الدخول'),
-                              border: OutlineInputBorder()),
-                        ),
-
-
-                        const SizedBox(
-                          height: 10,
-                        ),
-
-
- Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [_primaryColor, _accentColor], // Start and end colors
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                            borderRadius: BorderRadius.circular(30), // Rounded corners
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Open a dialog to add a new row
-                              checkd();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent,  // Text color
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-                              elevation: 0, // No shadow
-                            ),
-                            child: Text(
-                              'البحث'.toUpperCase(),
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
                         ),
 
 
@@ -545,6 +434,102 @@ print(_index);
                   ),
           ),
         ),
+          Step(
+          title: const Text('البحث'),
+          content: Container(
+
+            child: SingleChildScrollView( // Wrap your content with SingleChildScrollView
+                child:  Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+
+                        SizedBox(
+                          height: 10, // <-- SEE HERE
+                        ),
+
+
+
+Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Center(
+                            child: Row(
+                              children: [
+                               Text('معرفه الدخول'),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                DropdownButton<Demande>(
+                                  hint: Text('معرفه الدخول'),
+                                  items:_list.map<DropdownMenuItem<Demande>>((Demande value) {
+                                    return DropdownMenuItem<Demande>(
+                                      value:  value ,
+                                      child: Text( value.cERSERIAL.toString() ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      IMP_CER_SERIAL = newValue;
+                                      // print("selected2 "+_EXPORT_COUNTRY!.name.toString());
+                                    });
+                                  },
+                                  value: IMP_CER_SERIAL,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+
+                        const SizedBox(
+                          height: 10,
+                        ),
+
+
+ Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [_primaryColor, _accentColor], // Start and end colors
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30), // Rounded corners
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Open a dialog to add a new row
+                              checkd();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white, backgroundColor: Colors.transparent,  // Text color
+                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                              elevation: 0, // No shadow
+                            ),
+                            child: Text(
+                              'البحث'.toUpperCase(),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      ]
+                  ),
+                  )
+                  ),
+          ),
+        ),
          Step(
           title: const Text('أضف هجن'),
           content: Container(
@@ -645,7 +630,7 @@ print(_index);
                       decoration: InputDecoration(labelText: 'عدد هجن'),
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
-                        ANML_NUMBER = value;
+                        _controller.text = value;
                       },
                     ),
 
@@ -868,7 +853,7 @@ bool isChecked = true;
       // All variables have values, you can proceed with your logic
 
 
-    Success? success =  (await ApiService().Setexport(_EXPORT_COUNTRY!.name.toString(),_ORIGIN_COUNTRY!.name.toString(),_EXPORT_COUNTRYa!.name.toString(),_ORIGIN_COUNTRYa!.name.toString(),_TRANSIET_COUNTRY!.name.toString(),SHIPPING_DATE.text,ANML_NUMBER,files,Pledge,IMP_CER_SERIAL.text));
+    Success? success =  (await ApiService().Setexport(_EXPORT_COUNTRY!.name.toString(),_ORIGIN_COUNTRY!.name.toString(),_EXPORT_COUNTRYa!.name.toString(),_ORIGIN_COUNTRYa!.name.toString(),_TRANSIET_COUNTRY!.name.toString(),SHIPPING_DATE.text,_controller.text,files,Pledge,IMP_CER_SERIAL!.cERSERIAL.toString()));
 
     if(success?.message =="success"){
   if (Navigator.of(context, rootNavigator: true).canPop()) {
@@ -977,33 +962,35 @@ Lottie.asset('assets/ok.json'),
   }
   Future<void> checkd() async {
 
+  showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children:  [
 
-
-
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (_) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Lottie.network(    'https://lottie.host/66e2a97f-0826-425b-bca6-d7e1ee74f757/YmBvSTB48I.json'),                SizedBox(height: 15),
+                        Lottie.network(    'https://lottie.host/66e2a97f-0826-425b-bca6-d7e1ee74f757/YmBvSTB48I.json'),   
+                             SizedBox(height: 15),
                 Text('...تحميل'),
 
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+
+
+
     List<String> variables = [
 
-
-      IMP_CER_SERIAL.text
+ IMP_CER_SERIAL != null ? IMP_CER_SERIAL!.cERSERIAL.toString() : ''
+    
 
     ];
 
@@ -1017,6 +1004,7 @@ Lottie.asset('assets/ok.json'),
     }
 
     if (hasEmptyVariable) {
+       
       Navigator.of(context, rootNavigator: true).pop();
       showDialog(
         barrierDismissible: false,
@@ -1047,18 +1035,21 @@ Lottie.asset('assets/ok.json'),
     } else {
       // All variables have values, you can proceed with your logic
 
-  if (Navigator.of(context, rootNavigator: true).canPop()) {
-          Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-        }
-    check checkss =  (await ApiService().getcheck(IMP_CER_SERIAL.text));
+ 
+    check checkss =  (await ApiService().getcheck(IMP_CER_SERIAL!.cERSERIAL.toString()));
+  Future.delayed(Duration(seconds: 0), () {
+    if (Navigator.of(context, rootNavigator: true).canPop()) {
+      Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+    }
 
+  });
 print(checkss.tOTALREST);
  final status = checkss.tOTALREST ?? '';
+ if(checkss.tOTALREST != null){
  _controller.text = checkss.tOTALREST!;
+ 
 
-  if (Navigator.of(context, rootNavigator: true).canPop()) {
-    Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-  }
+
 
   // ignore: use_build_context_synchronously
    showDialog(
@@ -1081,13 +1072,41 @@ print(checkss.tOTALREST);
       },
     );
 
-  Future.delayed(Duration(seconds: 7), () {
+  Future.delayed(Duration(seconds: 5), () {
     if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
     }
 
   });
+ }else{
+ 
+ 
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  SizedBox(height: 15),
+                  Text('الرجاء إدخال بيانات صحيحة')
+                ],
+              ),
+            ),
+          );
+        },
+      );
 
+      Future.delayed(Duration(seconds: 2), () {
+        if (Navigator.of(context, rootNavigator: true).canPop()) {
+          Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+        }
+      });
+ }
 
 
 }

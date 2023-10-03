@@ -21,4 +21,8 @@ get userzs async => await SharedPreferences.getInstance();
   static String check = '/getcheck';
   static String exports = '/exports';
 
+
+    static String getimportations = '/importations';
+  static String getexports = '/exports';
+
 }

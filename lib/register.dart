@@ -206,7 +206,7 @@ SizedBox(height: 20.0),
                                 "العنوان",
                                 "أدخل  العنوان"),
                                 controller: adresse,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
 
                           ),
                         ),

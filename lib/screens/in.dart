@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/home.dart';
+import 'package:tasareeh/model/Demande.dart';
 import 'package:tasareeh/model/contrie.dart';
 import 'package:tasareeh/model/success.dart';
 import 'package:intl/intl.dart' as inl;
@@ -103,8 +104,8 @@ class StepperExample extends StatefulWidget {
 class _StepperExampleState extends State<StepperExample> {
       late List<Contries> _contrie = [];
         term? _term ;
-        
-          int rest = 99999;
+          late List<Demande> _list = [];
+    
  @override
   void initState() {
     super.initState();
@@ -136,7 +137,7 @@ class _StepperExampleState extends State<StepperExample> {
       },
     );
 
-
+  _list = (await ApiService().getexports())!;
           _term = (await ApiService().getterm())!;
     _contrie = (await ApiService().getcontries())!;
     if (Navigator.of(context, rootNavigator: true).canPop()) {
@@ -149,12 +150,11 @@ class _StepperExampleState extends State<StepperExample> {
   Color _accentColor = Color.fromARGB(255, 90, 42, 8);
 bool hide = false;
   Contries? _EXPORT_COUNTRY,_ORIGIN_COUNTRY;
-
+Demande? EXP_CER_SERIAL;
   Contries? _EXPORT_COUNTRYa,_ORIGIN_COUNTRYa,_TRANSIET_COUNTRY;
   String ENTERY_PORT = 'معبر ابو سمرة';
 TextEditingController _controller = TextEditingController();
 
- TextEditingController EXP_CER_SERIAL = TextEditingController();
   TextEditingController EXPECTED_ARRIVAL_DATE = TextEditingController();
   TextEditingController SHIPPING_DATE = TextEditingController();
   bool _validateENTERY_PORT = false;
@@ -228,81 +228,7 @@ print(_index);
       },
 
   steps: <Step>[
-     Step(
-          title: const Text('البحث'),
-          content: Container(
-
-            child: SingleChildScrollView( // Wrap your content with SingleChildScrollView
-                child:  Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-
-                        SizedBox(
-                          height: 10, // <-- SEE HERE
-                        ),
-
-TextFormField(
-                          controller: EXP_CER_SERIAL,
-                          decoration: InputDecoration(
-                              errorText: _validateEXP_CER_SERIAL ? 'يرجي ادخال معرفه الخروج صحيح' : null,
-                              label: Text('معرفه الخروج'),
-                              border: OutlineInputBorder()),
-                        ),
-
-
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [_primaryColor, _accentColor], // Start and end colors
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                            borderRadius: BorderRadius.circular(30), // Rounded corners
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Open a dialog to add a new row
-                              checkd();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-                              elevation: 0, // No shadow
-                            ),
-                            child: Text(
-                              'البحث'.toUpperCase(),
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-
-
-
-  const SizedBox(
-                          height: 10,
-                        ),
-
-
-
-
-
-
-
-
-
-
-
-
-                      ]
-                  ),
-                  )
-                  ),
-          ),
-        ),
+    
         Step(
           title: const Text('البيانات العامة'),
           content: Container(
@@ -607,6 +533,105 @@ TextFormField(
           ),
         ),
          Step(
+          title: const Text('البحث'),
+          content: Container(
+
+            child: SingleChildScrollView( // Wrap your content with SingleChildScrollView
+                child:  Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+
+                        SizedBox(
+                          height: 10, // <-- SEE HERE
+                        ),
+
+
+ Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Center(
+                            child: Row(
+                              children: [
+                                Text('معرفه الخروج'),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                DropdownButton<Demande>(
+                                  hint:  Text('معرفه الخروج'),
+                                  items:_list.map<DropdownMenuItem<Demande>>((Demande value) {
+                                    return DropdownMenuItem<Demande>(
+                                      value:  value ,
+                                      child: Text( value.cERSERIAL.toString() ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      EXP_CER_SERIAL = newValue;
+                                      // print("selected2 "+_EXPORT_COUNTRY!.name.toString());
+                                    });
+                                  },
+                                  value: EXP_CER_SERIAL,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+
+
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [_primaryColor, _accentColor], // Start and end colors
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30), // Rounded corners
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Open a dialog to add a new row
+                              checkd();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
+                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                              elevation: 0, // No shadow
+                            ),
+                            child: Text(
+                              'البحث'.toUpperCase(),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+
+
+
+  const SizedBox(
+                          height: 10,
+                        ),
+
+
+
+
+
+
+
+
+
+
+
+
+                      ]
+                  ),
+                  )
+                  ),
+          ),
+        ),
+         Step(
           title: const Text('أضف هجن'),
           content: Container(
 
@@ -890,7 +915,7 @@ bool checkboxValue =false ;
     
       EXPECTED_ARRIVAL_DATE.text,
       SHIPPING_DATE.text,
-      EXP_CER_SERIAL.text
+      EXP_CER_SERIAL != null ? EXP_CER_SERIAL!.cERSERIAL.toString() : ''
 
     ];
 
@@ -935,7 +960,7 @@ bool checkboxValue =false ;
       // All variables have values, you can proceed with your logic
 
 
-    Success? success =  (await ApiService().Setimportations(_EXPORT_COUNTRY!.name.toString(),_ORIGIN_COUNTRY!.name.toString(),_EXPORT_COUNTRYa!.name.toString(),_ORIGIN_COUNTRYa!.name.toString(),_TRANSIET_COUNTRY!.name.toString(),ENTERY_PORT,EXPECTED_ARRIVAL_DATE.text,SHIPPING_DATE.text,ANML_NUMBER,files,'',EXP_CER_SERIAL.text));
+    Success? success =  (await ApiService().Setimportations(_EXPORT_COUNTRY!.name.toString(),_ORIGIN_COUNTRY!.name.toString(),_EXPORT_COUNTRYa!.name.toString(),_ORIGIN_COUNTRYa!.name.toString(),_TRANSIET_COUNTRY!.name.toString(),ENTERY_PORT,EXPECTED_ARRIVAL_DATE.text,SHIPPING_DATE.text,_controller.text,files,'',EXP_CER_SERIAL!.cERSERIAL.toString()));
 
     if(success?.message =="success"){
   if (Navigator.of(context, rootNavigator: true).canPop()) {
@@ -1072,7 +1097,7 @@ Future<void> checkd() async {
     List<String> variables = [
 
 
-      EXP_CER_SERIAL.text
+     EXP_CER_SERIAL != null ? EXP_CER_SERIAL!.cERSERIAL.toString() : ''
 
     ];
 
@@ -1119,7 +1144,7 @@ Future<void> checkd() async {
   if (Navigator.of(context, rootNavigator: true).canPop()) {
           Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
         }
-    check checkss =  (await ApiService().getcheck(EXP_CER_SERIAL.text));
+    check checkss =  (await ApiService().getcheck(EXP_CER_SERIAL!.cERSERIAL.toString()));
 
 print(checkss.tOTALREST);
 _controller.text = checkss.tOTALREST!;
