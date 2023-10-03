@@ -1,6 +1,8 @@
 
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -254,8 +256,36 @@ print(prefs.getString('first_name'));
                                     },
                                   );
                                     }
+                                      showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (_) {
+      return Dialog(
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+ Lottie.asset('assets/loading.json'),
+              SizedBox(height: 15),
+              Text('...تحميل'),
+
+            ],
+          ),
+        ),
+      );
+    },
+  );
+
+
 
                                     Token token = (await ApiService().login(phone.text,password.text,_selectedValue!.id.toString()))!;
+                                      if (Navigator.of(context, rootNavigator: true).canPop()) {
+        Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+     
+
+      }
                                     if(token.error.isNotEmpty){
                                            showDialog(
                                     context: context,
@@ -266,6 +296,8 @@ print(prefs.getString('first_name'));
                                     },
                                   );
                                     }else{
+
+   log(token.accessToken.toString());
                                 //          showDialog(
                                 //     context: context,
                                 //     builder: (BuildContext context) {
@@ -277,8 +309,10 @@ print(prefs.getString('first_name'));
                                   final user = await SharedPreferences.getInstance();
                                     user.setString('phone',phone.text);
                                     user.setString('token',token.accessToken);
-                                    User  user0 = (await ApiService().getuser())!;
-                                    user.setString('phone',user0.phone);
+
+                                    User?  user0 = (await ApiService().getuser())!;
+                                    if (user0 != null) {
+                         user.setString('phone',user0.phone);
          user.setString('first_name',user0.firstName);
          user.setString('last_name',user0.lastName);
          user.setString('email',user0.email);
@@ -287,6 +321,8 @@ print(prefs.getString('first_name'));
          user.setInt('contry_id',user0.contryId);
      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
 
+                                    }
+           
 
                                     }
 

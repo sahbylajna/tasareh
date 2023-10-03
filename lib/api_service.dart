@@ -304,25 +304,23 @@ Future<check> getcheck(String cerSerial) async {
     log(e.toString());
     // Handle the error gracefully and return a default check object with an error message
     return check(
-      cERSERIAL: ' ',
-      aPPLICIANTID: '',
-      statu: 'يرجى التأكد من المعرفه',
-      pAYMENTLINK: '',
-      pAYMENTERROR: '',
-      cERID: '',
-      data: '',
+      eXPTOTALNUM: ' ',
+      aCTUALIMPNUM: '',
+      iMPTOTALNUM: 'يرجى التأكد من المعرفه',
+      aCTUALEXPNUM: '',
+      tOTALREST: '',
+   
     );
   }
 
-  // Handle the case where the response status code is not 200 gracefully
+  // Handle the case where the response iMPTOTALNUMs code is not 200 gracefully
   return check(
-    cERSERIAL: ' ',
-    aPPLICIANTID: '',
-    statu: 'يرجى التأكد من المعرفه',
-    pAYMENTLINK: '',
-    pAYMENTERROR: '',
-    cERID: '',
-    data: '',
+    eXPTOTALNUM: ' ',
+    aCTUALIMPNUM: '',
+    iMPTOTALNUM: 'يرجى التأكد من المعرفه',
+    aCTUALEXPNUM: '',
+    tOTALREST: '',
+   
   );
 }
 

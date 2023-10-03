@@ -26,7 +26,7 @@ class _InContentState extends State<InContent>{
   Color _primaryColor = Color.fromARGB(234,176,74,1);
   Color _accentColor = Color.fromARGB(255, 90, 42, 8);
 
-
+ static const int rest = 1200;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -103,6 +103,8 @@ class StepperExample extends StatefulWidget {
 class _StepperExampleState extends State<StepperExample> {
       late List<Contries> _contrie = [];
         term? _term ;
+        
+          int rest = 99999;
  @override
   void initState() {
     super.initState();
@@ -150,6 +152,7 @@ bool hide = false;
 
   Contries? _EXPORT_COUNTRYa,_ORIGIN_COUNTRYa,_TRANSIET_COUNTRY;
   String ENTERY_PORT = 'معبر ابو سمرة';
+TextEditingController _controller = TextEditingController();
 
  TextEditingController EXP_CER_SERIAL = TextEditingController();
   TextEditingController EXPECTED_ARRIVAL_DATE = TextEditingController();
@@ -699,6 +702,8 @@ TextFormField(
 
 
                     TextField(
+                        controller: _controller,
+
                       decoration: InputDecoration(labelText: 'عدد هجن'),
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
@@ -1116,8 +1121,9 @@ Future<void> checkd() async {
         }
     check checkss =  (await ApiService().getcheck(EXP_CER_SERIAL.text));
 
-print(checkss.statu);
- final status = checkss.statu ?? '';
+print(checkss.tOTALREST);
+_controller.text = checkss.tOTALREST!;
+ final status = checkss.tOTALREST ?? '';
   if (Navigator.of(context, rootNavigator: true).canPop()) {
     Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
   }
@@ -1135,7 +1141,7 @@ print(checkss.statu);
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(height: 15),
-                Text(status),
+                Text('عدد هجن : ' + status),
               ],
             ),
           ),

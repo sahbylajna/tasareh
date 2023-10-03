@@ -172,6 +172,11 @@ bool hide = false;
 
   TextEditingController SHIPPING_DATE = TextEditingController();
   final GlobalKey<State> _statefulBuilderKey = GlobalKey<State>();
+
+
+
+  TextEditingController _controller = TextEditingController();
+
   DateTime dateTime0 = DateTime.now();
   DateTime dateTime1 = DateTime.now();
  String EXPORT_COUNTRY = '';
@@ -636,6 +641,7 @@ print(_index);
 
 
                     TextField(
+                        controller: _controller,
                       decoration: InputDecoration(labelText: 'عدد هجن'),
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
@@ -1046,8 +1052,10 @@ Lottie.asset('assets/ok.json'),
         }
     check checkss =  (await ApiService().getcheck(IMP_CER_SERIAL.text));
 
-print(checkss.statu);
- final status = checkss.statu ?? '';
+print(checkss.tOTALREST);
+ final status = checkss.tOTALREST ?? '';
+ _controller.text = checkss.tOTALREST!;
+
   if (Navigator.of(context, rootNavigator: true).canPop()) {
     Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
   }
@@ -1065,7 +1073,7 @@ print(checkss.statu);
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(height: 15),
-                Text(status),
+               Text('عدد هجن : ' + status),
               ],
             ),
           ),

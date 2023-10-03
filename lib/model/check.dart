@@ -4,44 +4,36 @@ check checkFromJson(String str) => check.fromJson(json.decode(str));
 
 String checkToJson(check data) => json.encode(data.toJson());
 
+
 class check {
-  String cERSERIAL;
-  String? aPPLICIANTID;
-  String statu;
-  String? pAYMENTLINK;
-  String? pAYMENTERROR;
-  String? cERID;
-  String? data;
+  String? eXPTOTALNUM;
+  String? aCTUALIMPNUM;
+  String? iMPTOTALNUM;
+  String? aCTUALEXPNUM;
+  String? tOTALREST;
 
-  check({
-   required this.cERSERIAL,
-     required this.aPPLICIANTID,
-   required   this.statu,
-      this.pAYMENTLINK,
-      this.pAYMENTERROR,
-    required  this.cERID,
-      this.data});
+  check(
+      {this.eXPTOTALNUM,
+      this.aCTUALIMPNUM,
+      this.iMPTOTALNUM,
+      this.aCTUALEXPNUM,
+      this.tOTALREST});
 
-  factory check.fromJson(Map<String, dynamic> json) => check(
-    cERSERIAL : json['CER_SERIAL'],
-    aPPLICIANTID : json['APPLICIANT_ID'],
-    statu : json['APPLICATION_STATUS'],
-    pAYMENTLINK : json['PAYMENT_LINK'],
-    pAYMENTERROR : json['PAYMENT_ERROR'],
-    cERID : json['CER_ID'],
-    data : json['data'],
-  );
+  check.fromJson(Map<String, dynamic> json) {
+    eXPTOTALNUM = json['EXP_TOTAL_NUM'];
+    aCTUALIMPNUM = json['ACTUAL_IMP_NUM'];
+    iMPTOTALNUM = json['IMP_TOTAL_NUM'];
+    aCTUALEXPNUM = json['ACTUAL_EXP_NUM'];
+    tOTALREST = json['TOTAL_REST'];
+  }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['CER_SERIAL'] = cERSERIAL;
-    data['APPLICIANT_ID'] = aPPLICIANTID;
-    data['APPLICATION_STATUS'] = statu;
-    data['PAYMENT_LINK'] = pAYMENTLINK;
-    data['PAYMENT_ERROR'] = pAYMENTERROR;
-    data['CER_ID'] = cERID;
-    data['data'] = this.data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['EXP_TOTAL_NUM'] = this.eXPTOTALNUM;
+    data['ACTUAL_IMP_NUM'] = this.aCTUALIMPNUM;
+    data['IMP_TOTAL_NUM'] = this.iMPTOTALNUM;
+    data['ACTUAL_EXP_NUM'] = this.aCTUALEXPNUM;
+    data['TOTAL_REST'] = this.tOTALREST;
     return data;
   }
 }
-
