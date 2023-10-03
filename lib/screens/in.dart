@@ -769,7 +769,7 @@ TextFormField(
 
     Future<void>  _showDialog(term) async {
 
-
+bool isChecked =true ;
     showDialog(
       context: context,
       builder: (_) {
@@ -777,6 +777,19 @@ TextFormField(
           title: Text(('التعهد')),
           content: Text(term!.conditionar),
           actions: <Widget>[
+    //         Checkbox(
+    //   checkColor: Colors.white,
+     
+      
+    //   onChanged: (bool value) {
+    //          print(value);
+    //     setState(() {
+    //       isChecked = value;
+    //     });
+   
+    //   },
+    //   value: isChecked,
+    // ),
                Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -788,11 +801,14 @@ TextFormField(
                           ),
                           child: ElevatedButton(
                             onPressed: () {
-                              // Open a dialog to add a new row
-                              if (Navigator.of(context, rootNavigator: true).canPop()) {
+                              if (isChecked) {
+                                                    if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
     }
-
+ 
+                              }
+                              // Open a dialog to add a new row
+         
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white, backgroundColor: Colors.transparent, // Text color
