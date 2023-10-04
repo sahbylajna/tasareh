@@ -23,7 +23,9 @@ show(BuildContext context){
     child: Text("حسنا"),
     onPressed: () {
     Navigator.of(context).pop();
-
+     if (Navigator.of(context, rootNavigator: true).canPop()) {
+       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+     }
 
     },
   );
@@ -49,7 +51,7 @@ show(BuildContext context){
 
 showAlertDialog(BuildContext context,code) async {
 
-    showDialog(
+     showDialog(
         // The user CANNOT close this dialog  by pressing outsite it
         barrierDismissible: false,
         context: context,
@@ -61,10 +63,9 @@ showAlertDialog(BuildContext context,code) async {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children:  [
                   // The loading indicator
-                  CircularProgressIndicator(),
-                  SizedBox(
+                          Lottie.asset('assets/loading.json'),                  SizedBox(
                     height: 15,
                   ),
                   // Some text
@@ -85,7 +86,9 @@ if(success.errors.toString() == "errors"){
 
 
 
-
+     if (Navigator.of(context, rootNavigator: true).canPop()) {
+       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+     }
 
     //Navigator.of(context).pop();
  Navigator.of(context).pop();
