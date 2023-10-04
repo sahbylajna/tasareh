@@ -419,7 +419,7 @@ Container(
    decoration: ThemeHelper().buttonBoxDecorationsmol(context),
                           child:ElevatedButton(
                   onPressed: () async {
-                             final pickedImage2  = await ImagePicker().pickImage(source: ImageSource.camera);
+                             final pickedImage2  = await ImagePicker().pickImage(source: ImageSource.gallery);
                       log(pickedImage2!.path);
                       setState(()  {
                     log(pickedImage2!.path);
