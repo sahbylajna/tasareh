@@ -98,30 +98,7 @@ print(prefs.getString('first_name'));
       textDirection: TextDirection.rtl,
       child:Scaffold(
       backgroundColor: Colors.white,
-      body:_isLoading
-            ? SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: _headerHeight,
-              child: HeaderWidget(_headerHeight, true, Icons.login_rounded), //let's create a common header widget
-            ),
-            SafeArea(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 10),// This will be the login form
-                child: Column(
-                  children: [
-                    Text(
-                      'مرحبًا',
-                      style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'سجل الدخول إلى حسابك',
-                      style: TextStyle(color: Colors.grey),
-                    ),]
-                )))]))
-            : SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
