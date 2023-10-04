@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tasareeh/api_service.dart';
@@ -29,7 +31,7 @@ class _BookContentState extends State<BookContent>{
     super.initState();
      _isLoading = true;
 
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _isLoading = false;
       });
@@ -108,16 +110,23 @@ showAlertDialog(BuildContext context) async {
      },
    );
       _list = (await ApiService().getlist())!;
-    //    Future.delayed(Duration.zero, () => showAlertDialog(context));
-Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
-
-    }));
-
-   Future.delayed(Duration(seconds: 2), () {
-     if (Navigator.of(context, rootNavigator: true).canPop()) {
+    
+      if(_list != null){
+         setState(() {
+        _isLoading = false;
+         if (Navigator.of(context, rootNavigator: true).canPop()) {
        Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
      }
-   });
+      });
+      }
+    //    Future.delayed(Duration.zero, () => showAlertDialog(context));
+
+
+  //  Future.delayed(Duration(seconds: 2), () {
+  //    if (Navigator.of(context, rootNavigator: true).canPop()) {
+  //      Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+  //    }
+  //  });
  
 
 

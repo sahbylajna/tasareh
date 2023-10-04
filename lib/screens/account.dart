@@ -33,7 +33,7 @@ class _AccountContentState extends State<AccountContent> {
   }
 
     Future<void> _getData(BuildContext context) async {
-
+    _user = (await ApiService().getuser());
 
       showDialog(
         barrierDismissible: false,
@@ -55,9 +55,8 @@ class _AccountContentState extends State<AccountContent> {
           );
         },
       );
-      Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
-      }));
-    _user = (await ApiService().getuser());
+
+
       if(_user != null){
         Future.delayed(Duration(seconds: 2), () {
           if (Navigator.of(context, rootNavigator: true).canPop()) {

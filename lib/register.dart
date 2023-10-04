@@ -621,10 +621,8 @@ print(success.message);
                                             final user = await SharedPreferences.getInstance();
                                     user.setString('id',success.id.toString());
 Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) => TermContent()
-                                    ),
-                                        (Route<dynamic> route) => false
+                                    MaterialPageRoute(builder: (context) => TermContent()),
+                                    (Route<dynamic> route) => false
                                 );
                                     }
 

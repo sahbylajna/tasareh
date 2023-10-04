@@ -282,15 +282,7 @@ print(prefs.getString('first_name'));
                                   );
                                     }else{
 
-   log(token.accessToken.toString());
-                                //          showDialog(
-                                //     context: context,
-                                //     builder: (BuildContext context) {
-                                //       return ThemeHelper().alartDialog("إنتباه",
-                                //         token.accessToken.toString() ,
-                                //           context);
-                                //     },
-                                //   );
+
                                   final user = await SharedPreferences.getInstance();
                                     user.setString('phone',phone.text);
                                     user.setString('token',token.accessToken);

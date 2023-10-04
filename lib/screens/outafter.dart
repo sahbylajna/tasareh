@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/home.dart';
@@ -186,7 +189,7 @@ Demande? IMP_CER_SERIAL;
 
     String TRANSIET_COUNTRY = '';
 
-    String ANML_NUMBER = '';
+    String ANML_NUMBER = '0';
 
    String? files,Pledge='';
 
@@ -629,8 +632,21 @@ Directionality(
                         controller: _controller,
                       decoration: InputDecoration(labelText: 'عدد هجن'),
                       keyboardType: TextInputType.number,
+                           inputFormatters: [
+                       FilteringTextInputFormatter.digitsOnly,
+  ],
                       onChanged: (value) {
-                        _controller.text = value;
+                       
+                   
+                         final number = int.tryParse(value);
+                              var number1 = int.tryParse(ANML_NUMBER);
+    if (number != null && number <= number1!) {
+     log(value as num);
+                    log(ANML_NUMBER as num);
+  
+    }else{
+      _controller.text = ANML_NUMBER;
+    }
                       },
                     ),
 
@@ -1003,7 +1019,7 @@ Lottie.asset('assets/ok.json'),
       }
     }
 
-    if (hasEmptyVariable) {
+    if (hasEmptyVariable  || _controller.text == "0") {
        
       Navigator.of(context, rootNavigator: true).pop();
       showDialog(
@@ -1048,7 +1064,10 @@ print(checkss.tOTALREST);
  if(checkss.tOTALREST != null){
  _controller.text = checkss.tOTALREST!;
  
-
+  setState(() {
+     _controller.text = checkss.tOTALREST!;
+     ANML_NUMBER = checkss.tOTALREST!;
+      });
 
 
   // ignore: use_build_context_synchronously

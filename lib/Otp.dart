@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/login.dart';
 import 'package:tasareeh/model/success.dart';
@@ -14,6 +15,8 @@ class Otp extends StatefulWidget {
 
 class _OtpState extends State<Otp> {
      TextEditingController phone = TextEditingController();
+  Color _primaryColor = Color.fromARGB(234,176,74,1);
+  Color _accentColor = Color.fromARGB(255, 90, 42, 8);
 
 show(BuildContext context){
     Widget okButton = TextButton(
@@ -90,7 +93,67 @@ if(success.errors.toString() == "errors"){
 
 
 }else{
- Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+
+
+  
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (_) {
+      return Dialog(
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 60),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children:  [
+Lottie.asset('assets/ok.json'),
+              SizedBox(height: 15),
+              Text('تم إرسال طلبك بنجاح'),
+Text( 'في إنتظار تفعيل حسابك من قبل ادمن.'),
+
+
+                            Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [_primaryColor, _accentColor], // Start and end colors
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30), // Rounded corners
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Open a dialog to add a new row
+                              if (Navigator.of(context, rootNavigator: true).canPop()) {
+      Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+    }
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => LoginPage()),
+            (route) => false);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white, backgroundColor: _primaryColor, // Text color
+                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                              elevation: 0, // No shadow
+                            ),
+                            child: Text(
+                               'عودة للصفحة الرئيسية'.toUpperCase(),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+
+
+
+
+
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
     // Close the dialog programmatically
     // We use "mounted" variable to get rid of the "Do not use BuildContexts across async gaps" warning
@@ -173,42 +236,14 @@ if(success.errors.toString() == "errors"){
   textFieldAlignment: MainAxisAlignment.spaceAround,
   fieldStyle: FieldStyle.underline,
   onCompleted: (pin) {
-    print("Completed: $pin");
+  
     Future.delayed(Duration.zero, () => showAlertDialog(context,pin));
   },
 ),
                     SizedBox(
                       height: 20,
                     ),
-                    // SizedBox(
-                    //   width: double.infinity,
-                    //   child: ElevatedButton(
-                    //     onPressed: () {
-
-
-
-                    //     },
-                    //     style: ButtonStyle(
-                    //       foregroundColor:
-                    //           MaterialStateProperty.all<Color>(Colors.white),
-                    //       backgroundColor:
-                    //           MaterialStateProperty.all<Color>(Colors.blue[300]!),
-                    //       shape:
-                    //           MaterialStateProperty.all<RoundedRectangleBorder>(
-                    //         RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(24.0),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     child: Padding(
-                    //       padding: EdgeInsets.all(14.0),
-                    //       child: Text(
-                    //         'تحقق',
-                    //         style: TextStyle(fontSize: 16),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
+                   
                   ],
                 ),
               ),
@@ -243,40 +278,5 @@ if(success.errors.toString() == "errors"){
     );
   }
 
-//   Widget _textFieldOTP({required bool first, last}) {
-//     return Container(
-//       height: 50,
-//       child: AspectRatio(
-//         aspectRatio: 1.0,
-//         child: TextField(
-//           autofocus: true,
-//           onChanged: (value) {
-//             if (value.length == 1 && last == false) {
-//               FocusScope.of(context).nextFocus();
 
-//             }
-//             if (value.length == 0 && first == false) {
-//               FocusScope.of(context).previousFocus();
-//             }
-//           },
-//           showCursor: false,
-//           readOnly: false,
-
-//           textAlign: TextAlign.center,
-//           style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-//           keyboardType: TextInputType.number,
-//           maxLength: 1,
-//           decoration: InputDecoration(
-//             counter: Offstage(),
-//             enabledBorder: OutlineInputBorder(
-//                 borderSide: BorderSide(width: 2, color: Colors.black12),
-//                 borderRadius: BorderRadius.circular(12)),
-//             focusedBorder: OutlineInputBorder(
-//                 borderSide: BorderSide(width: 2, color: Color.fromARGB(234,176,74,1)),
-//                 borderRadius: BorderRadius.circular(12)),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
 }

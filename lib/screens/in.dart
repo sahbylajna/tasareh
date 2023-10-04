@@ -1,6 +1,9 @@
 
+import 'dart:developer';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tasareeh/api_service.dart';
 import 'package:tasareeh/home.dart';
@@ -167,8 +170,8 @@ TextEditingController _controller = TextEditingController();
 
     String TRANSIET_COUNTRY = '';
 
-    String ANML_NUMBER = '';
-
+    String ANML_NUMBER = '0';
+String ANML_NUMBER1 = '9999';
    String? files;
 
  Future<void> _pickPDF() async {
@@ -731,8 +734,21 @@ print(_index);
 
                       decoration: InputDecoration(labelText: 'عدد هجن'),
                       keyboardType: TextInputType.number,
+                       inputFormatters: [
+                       FilteringTextInputFormatter.digitsOnly,
+  ],
                       onChanged: (value) {
-                        ANML_NUMBER = value;
+                       
+                   
+                         final number = int.tryParse(value);
+                              var number1 = int.tryParse(ANML_NUMBER);
+    if (number != null && number <= number1!) {
+     log(value);
+                    log(ANML_NUMBER);
+  
+    }else{
+      _controller.text = ANML_NUMBER;
+    }
                       },
                     ),
 
@@ -915,6 +931,7 @@ bool checkboxValue =false ;
     
       EXPECTED_ARRIVAL_DATE.text,
       SHIPPING_DATE.text,
+       _controller.text,
       EXP_CER_SERIAL != null ? EXP_CER_SERIAL!.cERSERIAL.toString() : ''
 
     ];
@@ -928,7 +945,7 @@ bool checkboxValue =false ;
       }
     }
 
-    if (hasEmptyVariable) {
+    if (hasEmptyVariable || _controller.text == "0") {
       Navigator.of(context, rootNavigator: true).pop();
       showDialog(
         barrierDismissible: false,
@@ -1140,14 +1157,39 @@ Future<void> checkd() async {
       });
     } else {
       // All variables have values, you can proceed with your logic
+   //  user = await SharedPreferences.getInstance();
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (_) {
+      return Dialog(
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+ Lottie.asset('assets/loading.json'),
+              SizedBox(height: 15),
+              Text('...تحميل'),
 
+            ],
+          ),
+        ),
+      );
+    },
+  );
   if (Navigator.of(context, rootNavigator: true).canPop()) {
           Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
         }
     check checkss =  (await ApiService().getcheck(EXP_CER_SERIAL!.cERSERIAL.toString()));
 
 print(checkss.tOTALREST);
-_controller.text = checkss.tOTALREST!;
+   setState(() {
+     _controller.text = checkss.tOTALREST!;
+     ANML_NUMBER = checkss.tOTALREST!;
+      });
+
  final status = checkss.tOTALREST ?? '';
   if (Navigator.of(context, rootNavigator: true).canPop()) {
     Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
@@ -1174,7 +1216,7 @@ _controller.text = checkss.tOTALREST!;
       },
     );
 
-  Future.delayed(Duration(seconds: 7), () {
+  Future.delayed(Duration(seconds: 3), () {
     if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
     }

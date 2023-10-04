@@ -39,7 +39,7 @@ class _HomeContentState extends State<HomeContent> {
     super.initState();
      _isLoading = true;
       _fetchData(context);
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _isLoading = false;
       });
@@ -55,7 +55,11 @@ class _HomeContentState extends State<HomeContent> {
 
 void _fetchData(BuildContext context) async {
  final prefs = await SharedPreferences.getInstance();
-users = prefs.getString('first_name')! ;
+  setState(() {
+    users = prefs.getString('first_name')! ;
+      _isLoading = false;
+      });
+
 
    //  user = await SharedPreferences.getInstance();
   showDialog(
@@ -81,35 +85,20 @@ users = prefs.getString('first_name')! ;
   );
 
 
-  try {
-    _count = await ApiService().getcount();
-    exports = _count!.exports;
-    importations = _count!.importations;
-    backs = _count!.backs;
+ 
+       if (Navigator.of(context, rootNavigator: true).canPop()) {
+        Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+        print(_count.toString());
+
+      }
 
 
     // Close the dialog after a 2-second delay
-    Future.delayed(Duration(seconds: 2), () {
-      if (Navigator.of(context, rootNavigator: true).canPop()) {
-        Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-        print(_count.toString());
-
-      }
+    Future.delayed(Duration(seconds: 1), () {
+   
     });
-    print(importations);
-       print(  "here");
-         if (Navigator.of(context, rootNavigator: true).canPop()) {
-        Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-        print(_count.toString());
-
-      }
-  } catch (e) {
-    print('Error: $e');
-    // Dismiss the dialog using the original context
-    if (Navigator.of(context, rootNavigator: true).canPop()) {
-      Navigator.of(context, rootNavigator: true).pop();
-    }
-  }
+  
+ 
 
 }
 

@@ -325,7 +325,11 @@ Success? success = await ApiService().signature(imageEncoded,user.get('id'));
       if (Navigator.of(context, rootNavigator: true).canPop()) {
     Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
   }
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => Otp()));
+
+  Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(builder: (context) => Otp()),
+                                    (Route<dynamic> route) => false
+                                );
   }else{
       if (Navigator.of(context, rootNavigator: true).canPop()) {
     Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
