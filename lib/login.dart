@@ -30,6 +30,7 @@ class LoginPage extends StatefulWidget{
 class _LoginPageState extends State<LoginPage>{
  final user = SharedPreferences.getInstance();
       late List<Contries> _contrie = [];
+      
     Contries? _selectedValue;
  Color _primaryColor = Color.fromARGB(234,176,74,1);
   Color _accentColor = Color.fromARGB(255, 90, 42, 8);
@@ -37,14 +38,17 @@ class _LoginPageState extends State<LoginPage>{
 @override
   void initState() {
     super.initState();
+     setState(() {
+        _isLoading = false;
+         _getData(context);
+      });
      Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _isLoading = false;
+         _getData(context);
       });
     });
-    Future.delayed(Duration.zero, () {
-      _getData(context);
-    });
+   
   }
   double _headerHeight = 250;
   Key _formKey = GlobalKey<FormState>();
@@ -59,7 +63,11 @@ print(prefs.getString('first_name'));
         Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => MyHomePage()), (route) => false);
     }else{
-         _contrie = (await ApiService().getcontries())!;
+
+          setState(() async {
+        _contrie = (await ApiService().getcontries())!;
+    });
+      
 
     showDialog(
       barrierDismissible: false,

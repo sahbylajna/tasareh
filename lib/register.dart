@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -45,7 +46,11 @@ class _RegistrationPageState extends State<RegistrationPage>{
   }
 
   void _getData() async {
-      _contrie = (await ApiService().getcontries())!;
+         setState(() async {
+        _contrie = (await ApiService().getcontries())!;
+    });
+      
+ 
 Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
 
     }));
@@ -60,7 +65,8 @@ Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
 
 
 
-
+  File? _imageFile;
+    File? _imageFile2;
 
   @override
   Widget build(BuildContext context) {
@@ -345,18 +351,22 @@ width: screen.width * 0.45,
    decoration: ThemeHelper().buttonBoxDecoration(context),
                           child:ElevatedButton(
                   onPressed: () async {
-                      image = await picker.pickImage(source: ImageSource.gallery);
-                      setState(() {
-                        //update UI
+                          final pickedImage  = await ImagePicker().pickImage(source: ImageSource.gallery);
+                      log(pickedImage!.path);
+                      setState(()  {
+                    log(pickedImage!.path);
+                           if (pickedImage != null) {
+        _imageFile = File(pickedImage!.path);
+      }
                       });
                   },
                   child:  Icon(Icons.photo, color: Colors.white),
 
                 ),
-
-
-
                               ),
+
+
+       
 //  image == null?Container():Image.file(File(image!.path),
 // width: _screen.width * 0.40,
 //  height: _screen.width * 0.20,)
@@ -366,11 +376,21 @@ Container(
    decoration: ThemeHelper().buttonBoxDecoration(context),
                           child:ElevatedButton(
                   onPressed: () async {
-                      image = await picker.pickImage(source: ImageSource.camera);
-                      setState(() {
-                        //update UI
-                      });
-                  },
+                      // image = await picker.pickImage(source: ImageSource.camera);
+                      // setState(() {
+                      //   //update UI
+                      // });
+
+                               final pickedImage  = await ImagePicker().pickImage(source: ImageSource.camera);
+                      log(pickedImage!.path);
+                      setState(()  {
+                    log(pickedImage!.path);
+                           if (pickedImage != null) {
+        _imageFile = File(pickedImage!.path);
+      }
+                 
+                  });
+                   },
                   child:  Icon(Icons.camera, color: Colors.white),
 
                 ),
@@ -381,10 +401,16 @@ Container(
 
                         ],
                        ),
+
      SizedBox(height: 20.0),
 
-
-
+ if (_imageFile != null)
+              Image.file(
+                _imageFile!,
+                width: 200,
+                height: 200,
+              ),
+  SizedBox(height: 10.0),
                        Row(
                         children: [
                           Text("الصورة الخلفية لل id"),
@@ -393,10 +419,15 @@ Container(
    decoration: ThemeHelper().buttonBoxDecorationsmol(context),
                           child:ElevatedButton(
                   onPressed: () async {
-                      image2 = await picker2.pickImage(source: ImageSource.gallery);
-                      setState(() {
-                        //update UI
-                      });
+                             final pickedImage2  = await ImagePicker().pickImage(source: ImageSource.camera);
+                      log(pickedImage2!.path);
+                      setState(()  {
+                    log(pickedImage2!.path);
+                           if (pickedImage2 != null) {
+        _imageFile2 = File(pickedImage2!.path);
+      }
+                 
+                  });
                   },
                   child: Icon(Icons.photo, color: Colors.white),
                 ),
@@ -409,10 +440,15 @@ Container(
    decoration: ThemeHelper().buttonBoxDecorationsmol(context),
                           child:ElevatedButton(
                   onPressed: () async {
-                      image2 = await picker2.pickImage(source: ImageSource.camera);
-                      setState(() {
-                        //update UI
-                      });
+                            final pickedImage2  = await ImagePicker().pickImage(source: ImageSource.camera);
+                      log(pickedImage2!.path);
+                      setState(()  {
+                    log(pickedImage2!.path);
+                           if (pickedImage2 != null) {
+        _imageFile2 = File(pickedImage2!.path);
+      }
+                 
+                  });
                   },
                   child: 
                   Icon(Icons.camera, color: Colors.white)
@@ -432,7 +468,13 @@ Container(
                         ],
                        ),
 
-
+ if (_imageFile2 != null)
+              Image.file(
+                _imageFile2!,
+                width: 200,
+                height: 200,
+              ),
+  SizedBox(height: 10.0),
 
                         SizedBox(height: 30,),
 
@@ -547,14 +589,14 @@ Container(
     );
 
 
-                                 final bytes = File(image!.path).readAsBytesSync();
-                          String base64Image1 =  "data:image/png;base64,${base64Encode(bytes)}";
-                             final bytes2 = File(image2!.path).readAsBytesSync();
-                          String base64Image2 =  "data:image/png;base64,${base64Encode(bytes2)}";
+                                 final bytes = _imageFile?.readAsBytesSync();
+                          String base64Image1 =  "data:image/png;base64,${base64Encode(bytes!)}";
+                             final bytes2 = _imageFile2?.readAsBytesSync();
+                          String base64Image2 =  "data:image/png;base64,${base64Encode(bytes2!)}";
 
-print(base64Image1);
+// log(base64Image1);
 
-print(base64Image2);
+// log(base64Image2);
 
 
  Success success =  (await ApiService().register(fistname.text,lastname.text,phone.text,password.text,email.text,ud.text,_selectedValue!.id.toString(),_selectedValue1!.id.toString(),base64Image1.toString(),base64Image2.toString(),'0','0','0'))!;

@@ -139,7 +139,7 @@ Future<Success?> register(String firstName, String lastName, String phone, Strin
 
   try {
     var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.register);
-    log(url.toString());
+   
 
     final Map<String, String> data = {
       'first_name': firstName,
@@ -172,7 +172,7 @@ Future<Success?> register(String firstName, String lastName, String phone, Strin
       // log(model.message.toString());
       return model;
     } else {
-      log('Failed with status code: ${response.statusCode}');
+      log('Failed with status code: ${response.body}');
     }
   } catch (e, stackTrace) {
     log('Exception occurred: $e', error: e, stackTrace: stackTrace);

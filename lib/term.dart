@@ -1,6 +1,7 @@
 
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -35,7 +36,11 @@ class _TermContentState extends State<TermContent>{
   bool _isLoading = false;
       double _headerHeight = 250;
        term? _term ;
-       late String imageEncoded;
+       late String imageEncoded ="null";
+
+       ByteData? byteData ;
+           late Uint8List imageBytes;
+
   Key _formKey = GlobalKey<FormState>();
 @override
   void initState() {
@@ -112,47 +117,45 @@ showAlertDialog(BuildContext context){
         });
   }
     void _getData() async {
+log(imageEncoded);
+   showDialog(
+     barrierDismissible: false,
+     context: context,
+     builder: (_) {
+       return Dialog(
+         backgroundColor: Colors.white,
+         child: Padding(
+           padding: const EdgeInsets.symmetric(vertical: 20),
+           child: Column(
+             mainAxisSize: MainAxisSize.min,
+             children: [
+                       Lottie.asset('assets/loading.json'),               SizedBox(height: 15),
+               Text('...تحميل'),
 
+             ],
+           ),
+         ),
+       );
+     },
+   );
+ setState(() async {
+   _term = (await ApiService().getterm())!;
+      });
 
-Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
-         showAlertDialog(context);
-       }));
-
-      _term = (await ApiService().getterm())!;
-Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
-
-    }));
+   
+   Future.delayed(Duration(seconds: 2), () {
+     if (Navigator.of(context, rootNavigator: true).canPop()) {
+       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+     }
+   });
   }
+  Uint8List? _signatureImage;
   @override
   Widget build( context) {
   bool isLoading = false;
 
   final screen =  MediaQuery.of(context).size;
-    if(_term == null ){
-    return Scaffold(
-      backgroundColor: Colors.blueGrey,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            BlurryModalProgressHUD(
-    inAsyncCall: isLoading,
-    blurEffectIntensity: 4,
-    progressIndicator: SpinKitFadingCircle(
-    color: Colors.deepPurple.shade300,
-    size: 90.0,
-    ),
-    dismissible: false,
-    opacity: 0.4,
-    color: Colors.deepPurple.shade300,
-    child: Scaffold(),
-)
-          ],
-        ),
-      ),
-    );
-    }else{
-
+ 
     return Directionality(
       textDirection: TextDirection.rtl,
       child:Scaffold(
@@ -184,7 +187,7 @@ Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
                         child: Column(
                           children: [
 
-                            Text(_term!.termAr.toString()),
+                            Text(_term?.termAr.toString() != null ? _term!.termAr.toString() : ''),
 
 
 
@@ -226,10 +229,21 @@ ElevatedButton(                     // FlatButton widget is used to make a text 
                   onPressed: () async {
                       ui.Image signatureData  = await _signaturePadKey.currentState!.toImage();
 
-ByteData? byteData = await signatureData.toByteData(format: ui.ImageByteFormat.png);
- imageEncoded =
-   "data:image/png;base64,${base64.encode(byteData!.buffer.asUint8List())}";
+byteData = await signatureData.toByteData(format: ui.ImageByteFormat.png);
 
+ setState(()  {
+
+        imageEncoded =
+   "data:image/png;base64,${base64.encode(byteData!.buffer.asUint8List())}";
+      });
+
+    //       final signatureImage = await _signaturePadKey.currentState!.toImage();
+    // final data = await signatureImage.toByteData(format: ui.ImageByteFormat.png);
+     final bytes = byteData!.buffer.asUint8List();
+    setState(() {
+      _signatureImage = bytes;
+    });
+      //  imageBytes = base64Decode(imageEncoded);
 print("Encoded: $imageEncoded");          //   print(image.clone.toString());
                     //   print(_signaturePadKey.currentState.);
                     //   _handleSaveButtonPressed(context);
@@ -245,11 +259,35 @@ print("Encoded: $imageEncoded");          //   print(image.clone.toString());
 style: ThemeHelper().buttonStyle(),
        child: Padding(
                                   padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                  child: Text('إمضاء'),),
+                                  child: Text('إمضاء', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),),
       ),
 ),
 
+                            SizedBox(height: 15.0),
+                          
+                             
+                            if (_signatureImage != null)
+                            ElevatedButton(
+  onPressed: () {
+     setState(() {
+      _signatureImage = null;
+        imageEncoded = '';
+    });
+    // Add your clear functionality here
+  },
+  child: Icon(Icons.clear),
+),
+   if (_signatureImage != null)
+                              Image.memory(
+                _signatureImage!,
+                width: 300,
+                height: 150,
+              ),
+              SizedBox(height: 15.0),
+                        //    if(imageEncoded != "null")
+                             //Image.memory(base64Decode("data:image/png;base64,${base64.encode(byteData!.buffer.asUint8List())}"),width: 200,height: 200,),
 
+  if (_signatureImage != null)
                             Container(
                               decoration: ThemeHelper().buttonBoxDecoration(context),
                               child: ElevatedButton(
@@ -328,4 +366,4 @@ Success? success = await ApiService().signature(imageEncoded,user.get('id'));
 
 }
 
-}
+
