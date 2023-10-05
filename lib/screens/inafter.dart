@@ -130,10 +130,13 @@ class _StepperExampleState extends State<StepperExample> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration.zero, () {
+        Future.delayed(Duration.zero, () {
       _getData(context);
     });
   }
+
+
+
   void _getData(BuildContext context) async {
 
     showDialog(
@@ -163,6 +166,10 @@ class _StepperExampleState extends State<StepperExample> {
       // Close the dialog
     }
     }
+
+
+
+    
   int _index = 0;
     Color _primaryColor = Color.fromARGB(234,176,74,1);
   Color _accentColor = Color.fromARGB(255, 90, 42, 8);

@@ -119,6 +119,10 @@ showAlertDialog(BuildContext context) async {
      }
       });
       }
+
+        if (Navigator.of(context, rootNavigator: true).canPop()) {
+       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+     }
     //    Future.delayed(Duration.zero, () => showAlertDialog(context));
 
 

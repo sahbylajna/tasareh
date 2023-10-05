@@ -86,14 +86,39 @@ if(success.errors.toString() == "errors"){
 
 
 
-     if (Navigator.of(context, rootNavigator: true).canPop()) {
-       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-     }
+//      if (Navigator.of(context, rootNavigator: true).canPop()) {
+//        Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+//      }
 
-    //Navigator.of(context).pop();
- Navigator.of(context).pop();
-    show(context);
+//     //Navigator.of(context).pop();
+//  Navigator.of(context).pop();
+//     show(context);
+     showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
 
+                  SizedBox(height: 15),
+                  Text('الرجاء إدخال بيانات صحيحة')
+                ],
+              ),
+            ),
+          );
+        },
+      );
+
+      Future.delayed(Duration(seconds: 2), () {
+        if (Navigator.of(context, rootNavigator: true).canPop()) {
+          Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+        }
+      });
 
 }else{
 
