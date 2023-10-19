@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasareeh/home.dart';
 
 import 'package:tasareeh/login.dart';
 
@@ -15,32 +17,28 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool _isVisible = false;
+  @override
+  initState() {
+    checkAuth();
+    super.initState();
+  }
 
-  _SplashScreenState(){
-
-    Timer(const Duration(milliseconds: 4000), (){
-      setState(() {
-        Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-      });
+  bool auth = false;
+  void checkAuth() async {
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => auth ? MyHomePage() : LoginPage()), (route) => false);
     });
 
-    Timer(
-      Duration(milliseconds: 50),(){
-        setState(() {
-          _isVisible = true; // Now it is showing fade effect and navigating to Login page
-        });
-      }
-    );
-
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('ud') != null) {
+      auth = true;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-  // GlobalKey<State> _dialogKey = GlobalKey<State>();
-  Color primaryColor = Color.fromARGB(234,176,74,1);
-  Color accentColor = Color.fromARGB(255, 90, 42, 8);
+    Color primaryColor = Color.fromARGB(234, 176, 74, 1);
+    Color accentColor = Color.fromARGB(255, 90, 42, 8);
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -52,39 +50,11 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
       child: AnimatedSplashScreen(
-        splash:  Image.asset('assets/logo.png',
-         width: 200.0, // Set the desired width
-  height: 150.0, // Set the desired height
-        ) ,
-        nextScreen: LoginPage() ,
-        duration: 3000,
+        splash: Image.asset('assets/logo.png', width: 200.0, height: 150.0),
+        nextScreen: LoginPage(),
+        duration: 10000,
         splashTransition: SplashTransition.rotationTransition,
-
-            backgroundColor: accentColor
-        // duration: Duration(milliseconds: 1200),
-        // child: Center(
-        //   child: Container(
-        //     height: 140.0,
-        //     width: 140.0,
-        //     decoration: BoxDecoration(
-        //       shape: BoxShape.circle,
-        //       color: Colors.white,
-        //       boxShadow: [
-        //         BoxShadow(
-        //           color: Colors.black.withOpacity(0.3),
-        //           blurRadius: 2.0,
-        //           offset: Offset(5.0, 3.0),
-        //           spreadRadius: 2.0,
-        //         )
-        //       ]
-        //     ),
-        //     child: Center(
-        //       child: ClipOval(
-        //         child: Image.asset('assets/logo.png'), //put your logo here
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        backgroundColor: accentColor,
       ),
     );
   }

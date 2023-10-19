@@ -1,4 +1,4 @@
-package com.example.tasareeh
+package com.tasareeh.tasareeh
 
 import io.flutter.embedding.android.FlutterActivity
 

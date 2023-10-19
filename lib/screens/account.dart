@@ -1,239 +1,199 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:tasareeh/common/theme_helper.dart';
+import 'package:tasareeh/helpers/dialogs.dart';
+import 'package:tasareeh/helpers/ui.dart';
 import 'package:tasareeh/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tasareeh/screens/constants.dart';
-import 'package:tasareeh/screens/home.dart';
+import 'package:tasareeh/helpers/theme.dart';
+import 'package:tasareeh/model/success.dart';
 
 import '../api_service.dart';
 import '../model/user.dart';
 
 class AccountContent extends StatefulWidget {
   @override
-  _AccountContentState createState() => _AccountContentState();
-
+  State<AccountContent> createState() => _AccountContentState();
 }
-
-
 
 class _AccountContentState extends State<AccountContent> {
   late SharedPreferences prefs;
-   Color _primaryColor = Color.fromARGB(234,176,74,1);
-  Color _accentColor = Color.fromARGB(255, 90, 42, 8);
-  User?  _user;
+  User? _user;
+  Success? _success;
   @override
   void initState() {
+    _getData(context);
     super.initState();
-
-    Future.delayed(Duration.zero, () {
-      _getData(context);
-
-    });
   }
 
-    Future<void> _getData(BuildContext context) async {
+  Future<void> _getData(BuildContext context) async {
     _user = (await ApiService().getuser());
-
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (_) {
-          return Dialog(
-            backgroundColor: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Lottie.network(    'https://lottie.host/66e2a97f-0826-425b-bca6-d7e1ee74f757/YmBvSTB48I.json'),                  SizedBox(height: 15),
-                  Text('...تحميل'),
-
-                ],
-              ),
-            ),
-          );
-        },
-      );
-
-
-      if(_user != null){
-        Future.delayed(Duration(seconds: 2), () {
-          if (Navigator.of(context, rootNavigator: true).canPop()) {
-            Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-          }
-        });
-      }
-
+    setState(() {});
   }
 
-
-    void logout() async {
+  void logout() async {
     final prefs = await SharedPreferences.getInstance();
-
-      prefs.clear();
-
-     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
-
-
+    prefs.clear();
+    if (mounted) {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+    }
   }
-  showAlertDialog(BuildContext context){
-    AlertDialog alert=AlertDialog(
-      content: Row(
-        children: [
-          CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: 2),child:Text("Loading" )),
-        ],),
-    );
+
+  Future<void> _handleConfirmation() async {
+
+dialogLoading(context);
+
+_success = (await ApiService().deleteuser());
+if(_success?.errors.toString() == ""){
+   logout() ;
+}
+log(_success.toString());
+
+    print("Confirmed action");
+  }
+   void _showConfirmationDialog(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (context) {
-          Future.delayed(Duration.zero, () {
-            Navigator.of(context).pop(true);
-          });
-          return alert;
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("تأكيد"),
+          content: Text("هل أنت متأكد أنك تريد تنفيذ هذا الإجراء؟"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text("مؤكد"),
+              onPressed: () {
+                _handleConfirmation(); // Call the confirmation action
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
+
   @override
   Widget build(BuildContext context) {
-
-
-     if(_user == null){
-  Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
-         showAlertDialog(context);
-       }));
-       return  Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
-      child:Scaffold(
-           appBar:AppBar(
-             title: Center(child: Text('الملف الشخصي')),
-             shape: RoundedRectangleBorder(
-               borderRadius: BorderRadius.vertical(
-                 bottom: Radius.circular(40.0),
-               ),
-             ),
-
-             flexibleSpace: Container(
-               decoration: BoxDecoration(
-                 borderRadius: BorderRadius.only(
-                   bottomLeft: Radius.circular(40.0),
-                   bottomRight: Radius.circular(40.0),
-                 ),
-                 gradient: LinearGradient(
-                   colors: [_primaryColor, _accentColor], // Start and end colors
-                   begin: Alignment.centerLeft,
-                   end: Alignment.centerRight,
-                 ),
-               ),
-             ),
-           ),
-    body: ListView.separated(
-                itemCount: 5,
-                itemBuilder: (context, index) => const NewsCardSkelton(),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: defaultPadding),
-              )
-       )
-
-       );
-
-     }else{
-       return Directionality(
-           textDirection: TextDirection.rtl,
-           child:Scaffold(
-           appBar: AppBar(
-             title: Center(child: Text('اللجنة المنضمة لسباق الهجن')),
-             shape: RoundedRectangleBorder(
-               borderRadius: BorderRadius.vertical(
-                 bottom: Radius.circular(40.0),
-               ),
-             ),
-
-             flexibleSpace: Container(
-               decoration: BoxDecoration(
-                 borderRadius: BorderRadius.only(
-                   bottomLeft: Radius.circular(40.0),
-                   bottomRight: Radius.circular(40.0),
-                 ),
-                 gradient: LinearGradient(
-                   colors: [_primaryColor, _accentColor], // Start and end colors
-                   begin: Alignment.centerLeft,
-                   end: Alignment.centerRight,
-                 ),
-               ),
-             ),
-           ),
-    body:Directionality(
-         textDirection: TextDirection.rtl,
-
-         child: Column(
-           children: <Widget>[
-
-             Card(
-               child: Container(
-
-                 alignment: Alignment.center,
-
-                 padding: EdgeInsets.all(15),
-                 child: Column(
-                   children: <Widget>[
-                     Column(
-                       children: <Widget>[
-                         ...ListTile.divideTiles(
-                           color: Colors.grey,
-                           tiles: [
-                             ListTile(
-                               leading: Icon(Icons.person),
-                               title: Text(" الاسم"),
-                               subtitle: Text(_user!.firstName),
-                             ),
-                             ListTile(
-                               leading: Icon(Icons.person),
-                               title: Text(" اللقب"),
-                               subtitle: Text(_user!.lastName),
-                             ),
-                             ListTile(
-                               leading: Icon(Icons.email),
-                               title: Text("بريد إلكتروني"),
-                               subtitle: Text(_user!.email),
-                             ),
-                             ListTile(
-                               leading: Icon(Icons.phone),
-                               title: Text("هاتف"),
-                               subtitle: Text(_user!.phone),
-                             ),
-                             ListTile(
-                               leading: Icon(Icons.person),
-                               title: Text("ud"),
-                               subtitle: Text(_user!.ud),
-                             ),
-                           ],
-                         ),
-                       ],
-                     )
-                   ],
-                 ),
-               ),
-             ),
-             Container(
-                              decoration: ThemeHelper().buttonBoxDecoration(context),
-                              child: ElevatedButton(
-                                style: ThemeHelper().buttonStyle(),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                  child: Text('تسجيل خروج'.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-                                ),
-                                onPressed: ()  {
-                                    logout();
-
-                                },
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          title: Center(child: Text('اللجنة المنضمة لسباق الهجن')),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(40.0),
+            ),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40.0),
+                bottomRight: Radius.circular(40.0),
+              ),
+              gradient: LinearGradient(
+                colors: [primaryColor, accentColor], // Start and end colors
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+            ),
+          ),
+        ),
+        body: (_user == null)
+            ? MyLoadingWidget()
+            : Column(
+                children: <Widget>[
+                  SizedBox(height: 30),
+                  Card(
+                    margin: EdgeInsets.all(8),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              ...ListTile.divideTiles(
+                                color: Colors.grey,
+                                tiles: [
+                                  ListTile(
+                                    leading: Icon(Icons.person),
+                                    title: Text(" الاسم"),
+                                    subtitle: Text(_user!.firstName),
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.person),
+                                    title: Text(" اللقب"),
+                                    subtitle: Text(_user!.lastName),
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.email),
+                                    title: Text("بريد إلكتروني"),
+                                    subtitle: Text(_user!.email),
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.phone),
+                                    title: Text("هاتف"),
+                                    subtitle: Text(_user!.phone),
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.person),
+                                    title: Text("ud"),
+                                    subtitle: Text(_user!.ud),
+                                  ),
+                                ],
                               ),
-                            ),
-           ],
-         ),
-       )
-       ));
-     }
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Container(
+                    decoration: ThemeHelper().buttonBoxDecoration(context),
+                    child: ElevatedButton(
+                      style: ThemeHelper().buttonStyle(),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                        child: Text(
+                          'تسجيل خروج'.toUpperCase(),
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                      onPressed: () {
+                        logout();
+                      },
+                    ),
+                  ),
 
+                   SizedBox(height: 30),
+                  Container(
+                    decoration: ThemeHelper().buttonBoxDecoration(context),
+                    child: ElevatedButton(
+                      style: ThemeHelper().buttonStyle(),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                        child: Text(
+                          'حذف خروج'.toUpperCase(),
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                      onPressed: () {
+                         _showConfirmationDialog(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
   }
 }

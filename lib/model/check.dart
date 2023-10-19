@@ -28,12 +28,12 @@ class check {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['EXP_TOTAL_NUM'] = this.eXPTOTALNUM;
-    data['ACTUAL_IMP_NUM'] = this.aCTUALIMPNUM;
-    data['IMP_TOTAL_NUM'] = this.iMPTOTALNUM;
-    data['ACTUAL_EXP_NUM'] = this.aCTUALEXPNUM;
-    data['TOTAL_REST'] = this.tOTALREST;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['EXP_TOTAL_NUM'] = eXPTOTALNUM;
+    data['ACTUAL_IMP_NUM'] = aCTUALIMPNUM;
+    data['IMP_TOTAL_NUM'] = iMPTOTALNUM;
+    data['ACTUAL_EXP_NUM'] = aCTUALEXPNUM;
+    data['TOTAL_REST'] = tOTALREST;
     return data;
   }
 }

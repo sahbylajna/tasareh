@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 
-
-class ThemeHelper{
-
-  InputDecoration textInputDecoration([String lableText="", String hintText = ""]){
+class ThemeHelper {
+  InputDecoration textInputDecoration([String lableText = "", String hintText = "", Widget? prefixIcon]) {
     return InputDecoration(
+      // icon: prefixIcon,
+      prefixIcon: prefixIcon,
       labelText: lableText,
       hintText: hintText,
       fillColor: Colors.white,
@@ -29,19 +28,12 @@ class ThemeHelper{
   }
 
   BoxDecoration buttonBoxDecoration(BuildContext context, [String color1 = "", String color2 = ""]) {
-    Color c1 = Color.fromARGB(234,176,74,1);
+    Color c1 = Color.fromARGB(234, 176, 74, 1);
     Color c2 = Color.fromARGB(255, 90, 42, 8);
-    if (color1.isEmpty == false) {
-      c1 = Color.fromARGB(234,176,74,1);
-    }
-    if (color2.isEmpty == false) {
-      c2 =  Color.fromARGB(255, 90, 42, 8);
-    }
+  
 
     return BoxDecoration(
-      boxShadow: [
-        BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 5.0)
-      ],
+      boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 5.0)],
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -51,26 +43,23 @@ class ThemeHelper{
           c2,
         ],
       ),
-      color:  Colors.transparent,
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(30),
     );
   }
 
-
-    BoxDecoration buttonBoxDecorationsmol(BuildContext context, [String color1 = "", String color2 = ""]) {
-    Color c1 = Color.fromARGB(234,176,74,1);
+  BoxDecoration buttonBoxDecorationsmol(BuildContext context, [String color1 = "", String color2 = ""]) {
+    Color c1 = Color.fromARGB(234, 176, 74, 1);
     Color c2 = Color.fromARGB(255, 90, 42, 8);
     if (color1.isEmpty == false) {
-      c1 = Color.fromARGB(234,176,74,1);
+      c1 = Color.fromARGB(234, 176, 74, 1);
     }
     if (color2.isEmpty == false) {
-      c2 =  Color.fromARGB(255, 90, 42, 8);
+      c2 = Color.fromARGB(255, 90, 42, 8);
     }
 
     return BoxDecoration(
-      boxShadow: [
-        BoxShadow(color: Colors.black26, offset: Offset(0,2), blurRadius: 5.0)
-      ],
+      boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 2), blurRadius: 5.0)],
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -80,13 +69,13 @@ class ThemeHelper{
           c2,
         ],
       ),
-      color:  Colors.transparent,
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(2),
     );
   }
 
   ButtonStyle buttonStyle() {
-     Color c1 = Color.fromARGB(234,176,74,1);
+    Color c1 = Color.fromARGB(234, 176, 74, 1);
     return ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
@@ -105,22 +94,18 @@ class ThemeHelper{
       content: Text(content),
       actions: [
         TextButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.black38)),
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black38)),
           onPressed: () {
             Navigator.of(context).pop();
           },
           child: Text(
-            "تمام",
+            "حسنا",
             style: TextStyle(color: Colors.white),
           ),
         ),
       ],
     );
   }
-
 }
 
-class LoginFormStyle{
-
-}
+class LoginFormStyle {}

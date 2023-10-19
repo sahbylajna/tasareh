@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:tasareeh/model/Animal.dart';
@@ -6,7 +5,27 @@ import 'package:tasareeh/model/Animal.dart';
 List<Demande> DemandeFromJson(String str) => List<Demande>.from(json.decode(str).map((x) => Demande.fromJson(x)));
 
 String DemandeToJson(List<Demande> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class Demande {
+  String demandMessage() {
+    switch (accepted) {
+      case "null":
+        return 'قيد المراجعة  من اللجنة المنضمة لسباق الهجن ';
+      case "0":
+        return 'تم رفض طلبك من اللجنة المنضمة لسباق الهجن';
+      case "1":
+        return 'تم قبول طلبك من اللجنة المنضمة لسباق الهجن';
+      case "2":
+        return 'تم رفض طلبك من الثروة الحيوانية ';
+      case "3":
+        return 'تم قبول طلبك من الثروة الحيوانية';
+      case "5":
+        return 'تم قبول طلبك من الثروة الحيوانية';
+      default:
+        return 'قيد المراجعة  من اللجنة المنضمة لسباق الهجن ';
+    }
+  }
+
   int? id;
   String? createdAt;
   String? updatedAt;

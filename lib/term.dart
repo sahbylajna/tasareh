@@ -1,373 +1,234 @@
-
-
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:tasareeh/Otp.dart';
+import 'package:tasareeh/helpers/dialogs.dart';
 import 'package:tasareeh/model/term.dart';
 import 'package:tasareeh/widgets/header_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
-import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
 import 'api_service.dart';
 import 'common/theme_helper.dart';
 import 'dart:ui' as ui;
 
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-
 import 'package:tasareeh/model/success.dart';
 
-class TermContent extends StatefulWidget   {
-
+class TermContent extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-     return _TermContentState();
+    return _TermContentState();
   }
-
-
-
-
 }
-class _TermContentState extends State<TermContent>{
-  bool _isLoading = false;
-      double _headerHeight = 250;
-       term? _term ;
-       late String imageEncoded ="null";
 
-       ByteData? byteData ;
-           late Uint8List imageBytes;
-
+class _TermContentState extends State<TermContent> {
+  ScrollController ctrl = ScrollController();
+  bool _isLoading = true;
+  GlobalKey<SfSignaturePadState> _signaturePadKey = GlobalKey();
   Key _formKey = GlobalKey<FormState>();
-@override
+  double _headerHeight = 250;
+  term? _term;
+  late String imageEncoded = "null";
+
+  ByteData? byteData;
+  late Uint8List imageBytes;
+  Uint8List? _signatureImage;
+
+  @override
   void initState() {
     super.initState();
     _getData();
   }
 
-show(BuildContext context){
-    Widget okButton = TextButton(
-    child: Text("حسنا"),
-    onPressed: () {
-    Navigator.of(context).pop();
-
-
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("خطأ"),
-    content: Text( 'الرجاء إدخال بيانات صحيحة'),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-
-}
-  GlobalKey<SfSignaturePadState> _signaturePadKey = GlobalKey();
-
-   void _handleSaveButtonPressed(BuildContext context) async {
-     final data =
-        await _signaturePadKey.currentState!.toImage(pixelRatio: 3.0);
-    final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: Center(
-              child: Container(
-                color: Colors.grey[300],
-                child: Image.memory(bytes!.buffer.asUint8List()),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-showAlertDialog(BuildContext context){
-    AlertDialog alert=AlertDialog(
-      content: Row(
-        children: [
-          CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: 2),child:Text("Loading" )),
-        ],),
-    );
-    showDialog(
-        context: context,
-        builder: (context) {
-          Future.delayed(Duration.zero, () {
-            Navigator.of(context).pop(true);
-          });
-          return alert;
-        });
-  }
-    void _getData() async {
-log(imageEncoded);
-   showDialog(
-     barrierDismissible: false,
-     context: context,
-     builder: (_) {
-       return Dialog(
-         backgroundColor: Colors.white,
-         child: Padding(
-           padding: const EdgeInsets.symmetric(vertical: 20),
-           child: Column(
-             mainAxisSize: MainAxisSize.min,
-             children: [
-                       Lottie.asset('assets/loading.json'),               SizedBox(height: 15),
-               Text('...تحميل'),
-
-             ],
-           ),
-         ),
-       );
-     },
-   );
- setState(() async {
-   _term = (await ApiService().getterm())!;
-      });
-
-   
-   Future.delayed(Duration(seconds: 2), () {
-     if (Navigator.of(context, rootNavigator: true).canPop()) {
-       Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-     }
-   });
-  }
-  Uint8List? _signatureImage;
-  @override
-  Widget build( context) {
-  bool isLoading = false;
-
-  final screen =  MediaQuery.of(context).size;
- 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child:Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: _headerHeight,
-              child: HeaderWidget(_headerHeight, true, Icons.login_rounded), //let's create a common header widget
-            ),
-            SafeArea(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 10),// This will be the login form
-                child: Column(
-                  children: [
-                    Text(
-                      'مرحبًا',
-                      style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'سجل الدخول إلى حسابك',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    SizedBox(height: 30.0),
-                    Form(
-                      key: _formKey,
-                        child: Column(
-                          children: [
-
-                            Text(_term?.termAr.toString() != null ? _term!.termAr.toString() : ''),
-
-
-
-                            SizedBox(height: 10.0),
-
-
-                            SizedBox(height: 15.0),
-
-Container(
-                              decoration: ThemeHelper().buttonBoxDecoration(context),
-                              child:ElevatedButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return  AlertDialog(
-        contentPadding: const EdgeInsets.all(6.0),
-        title: Text('إمضاء'),
-        content: Column(mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SfSignaturePad(
-key: _signaturePadKey,
-                      backgroundColor: Colors.white,
-                      strokeColor: Colors.black,
-                      minimumStrokeWidth: 1.0,
-                      maximumStrokeWidth: 4.0),]),
-            actions: [
-ElevatedButton(                     // FlatButton widget is used to make a text to work like a button
-
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },             // function used to perform after pressing the button
-                  child: Text('إلغاء'),
-                ),
-
-                ElevatedButton(
-
-                  onPressed: () async {
-                      ui.Image signatureData  = await _signaturePadKey.currentState!.toImage();
-
-byteData = await signatureData.toByteData(format: ui.ImageByteFormat.png);
-
- setState(()  {
-
-        imageEncoded =
-   "data:image/png;base64,${base64.encode(byteData!.buffer.asUint8List())}";
-      });
-
-    //       final signatureImage = await _signaturePadKey.currentState!.toImage();
-    // final data = await signatureImage.toByteData(format: ui.ImageByteFormat.png);
-     final bytes = byteData!.buffer.asUint8List();
+  void _getData() async {
+    try {
+      _term = (await ApiService().getterm())!;
+    } catch (e) {}
     setState(() {
-      _signatureImage = bytes;
+      _isLoading = false;
     });
-      //  imageBytes = base64Decode(imageEncoded);
-print("Encoded: $imageEncoded");          //   print(image.clone.toString());
-                    //   print(_signaturePadKey.currentState.);
-                    //   _handleSaveButtonPressed(context);
-  Navigator.of(context, rootNavigator: true).pop();
-                  },
-                  child: Text('قبول'),
-                ),
-            ],
-          );
-            },
-          );
-        },
-style: ThemeHelper().buttonStyle(),
-       child: Padding(
-                                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                  child: Text('إمضاء', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),),
-      ),
-),
+  }
 
-                            SizedBox(height: 15.0),
-                          
-                             
-                            if (_signatureImage != null)
-                            ElevatedButton(
-  onPressed: () {
-     setState(() {
-      _signatureImage = null;
-        imageEncoded = '';
-    });
-    // Add your clear functionality here
-  },
-  child: Icon(Icons.clear),
-),
-   if (_signatureImage != null)
-                              Image.memory(
-                _signatureImage!,
-                width: 300,
-                height: 150,
-              ),
-              SizedBox(height: 15.0),
-                        //    if(imageEncoded != "null")
-                             //Image.memory(base64Decode("data:image/png;base64,${base64.encode(byteData!.buffer.asUint8List())}"),width: 200,height: 200,),
+  confirm() async {
+    showUpload(context);
+    if (imageEncoded.isNotEmpty) {
+      final user = await SharedPreferences.getInstance();
+      Success? success = await ApiService().signature(imageEncoded, user.get('id'));
 
-  if (_signatureImage != null)
-                            Container(
-                              decoration: ThemeHelper().buttonBoxDecoration(context),
-                              child: ElevatedButton(
-                                style: ThemeHelper().buttonStyle(),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                  child: Text('تسجيل '.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-                                ),
-                                onPressed: () async {
-                                   showDialog(
-      barrierDismissible: false,
+      if (success?.message == 'success') {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Otp()));
+      } else {
+        if (Navigator.of(context, rootNavigator: true).canPop()) {
+          Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+        }
+        dialogInfo(context, text: 'الرجاء إدخال بيانات صحيحة');
+      }
+    } else {
+      dialogInfo(context, text: 'الرجاء إدخال بيانات صحيحة');
+    }
+  }
+
+  sign() {
+    showDialog(
       context: context,
-      builder: (_) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-              Lottie.asset('assets/up.json'),
-
-              ],
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(6.0),
+          title: Text('إمضاء'),
+          content: Column(mainAxisAlignment: MainAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+            SfSignaturePad(key: _signaturePadKey, backgroundColor: Colors.white, strokeColor: Colors.black, minimumStrokeWidth: 1.0, maximumStrokeWidth: 4.0),
+          ]),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              }, // function used to perform after pressing the button
+              child: Text('إلغاء'),
             ),
-          ),
+            ElevatedButton(
+              onPressed: () async {
+                ui.Image signatureData = await _signaturePadKey.currentState!.toImage();
+                byteData = await signatureData.toByteData(format: ui.ImageByteFormat.png);
+                setState(() {
+                  imageEncoded = "data:image/png;base64,${base64.encode(byteData!.buffer.asUint8List())}";
+                });
+
+                final bytes = byteData!.buffer.asUint8List();
+                setState(() {
+                  _signatureImage = bytes;
+                });
+                print("Encoded: $imageEncoded");
+                Navigator.of(context, rootNavigator: true).pop();
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  ctrl.animateTo(ctrl.position.maxScrollExtent, duration: const Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                });
+              },
+              child: Text('قبول'),
+            ),
+          ],
         );
       },
     );
-
-if(imageEncoded.isNotEmpty){
-         final user = await SharedPreferences.getInstance();
-Success? success = await ApiService().signature(imageEncoded,user.get('id'));
-
-  if(success?.message.toString() == 'success'){
-      if (Navigator.of(context, rootNavigator: true).canPop()) {
-    Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
   }
 
-  Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(builder: (context) => Otp()),
-                                    (Route<dynamic> route) => false
-                                );
-  }else{
-      if (Navigator.of(context, rootNavigator: true).canPop()) {
-    Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
-  }
- show(context);
-  }
-}else{
- show(context);
-  }
+  @override
+  Widget build(context) {
+    return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: AppBar(),
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            controller: ctrl,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: _headerHeight,
+                  child: HeaderWidget(_headerHeight, true, Icons.login_rounded), //let's create a common header widget
+                ),
+                SafeArea(
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      margin: EdgeInsets.fromLTRB(20, 10, 20, 10), // This will be the login form
+                      child: Column(
+                        children: [
+                          Text(
+                            'مرحبًا',
+                            style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'سجل الدخول إلى حسابك',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          SizedBox(height: 30.0),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height / 3),
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //         border: Border.all(
+                          //           color: Color.fromARGB(255, 204, 88, 5),
+                          //         ),
+                          //         borderRadius: BorderRadius.all(Radius.circular(20))),
+                          //     child: SfSignaturePad(
+                          //       key: _signaturePadKey,
+                          //       backgroundColor: Colors.white,
+                          //       strokeColor: Colors.black,
+                          //       minimumStrokeWidth: 1.0,
+                          //       maximumStrokeWidth: 4.0,
+                          //     ),
+                          //   ),
+                          // ),
+                          Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  _isLoading
+                                      ? SizedBox(height: 100, child: const Center(child: CircularProgressIndicator()))
+                                      : 
+                                      // Text(_term?.termAr.toString() != null ? _term!.termAr.toString() : '')
+                                         Html(data:_term?.termAr.toString() != null ? _term!.termAr.toString() : ''),
+                                  // Text(
+                                  //     "ليس لوريم إيبسوم على الإطلاق ، ولكن لوريم إيبسوم الخاص بك! باستخدام منشئ النص عبر الإنترنت ، يمكنك معالجة Lorem Ipsum الخاص بك بإثرائه بعناصر html التي تحدد هيكله ، مع إمكانية إدراج روابط خارجية ، ولكن ليس فقط . يعد الآن كتابة نص لوريم إيبسوم أكثر متعة! في الواقع ، فإن إدخال أي نص خيالي أو نص مشهور ، سواء كان قصيدة أو خطاب أو مقطعًا أدبيًا أو نص أغنية وما إلى ذلك ، سيوفر مولد النص الخاص بنا الاستخراج العشوائي للمصطلحات والخطوات لتأليف برنامج Lorem Ipsum الخاص بك. كن أصليًا ، اختبر خيالك ... سوف يذهلك مُنشئ Lorem Ipsum. جربه الآن! نسخ ولصق!"),
 
+                                  SizedBox(height: 30.0),
+                                  if (_signatureImage == null)
+                                    Container(
+                                      decoration: ThemeHelper().buttonBoxDecoration(context),
+                                      child: ElevatedButton(
+                                        onPressed: sign,
+                                        style: ThemeHelper().buttonStyle(),
+                                        child: Padding(
+                                          padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                          child: Text('إمضاء', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                                        ),
+                                      ),
+                                    ),
 
+                                  if (_signatureImage != null)
+                                    Stack(
+                                      children: [
+                                        Image.memory(_signatureImage!, width: 300, height: 150),
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _signatureImage = null;
+                                              imageEncoded = '';
+                                            });
+                                            // Add your clear functionality here
+                                          },
+                                          icon: Icon(Icons.clear),
+                                        ),
+                                      ],
+                                    ),
+                                  SizedBox(height: 15.0),
+                                  //    if(imageEncoded != "null")
+                                  //Image.memory(base64Decode("data:image/png;base64,${base64.encode(byteData!.buffer.asUint8List())}"),width: 200,height: 200,),
 
-
-
-
-
-
-                                    //_selectedValue!.id
-                                  //After successful login we will redirect to profile page. Let's create profile page now
-                              //
-                                },
-                              ),
-                            ),
-
-                          ],
-                        )
-                    ),
-                  ],
-                )
-              ),
+                                  if (_signatureImage != null)
+                                    Container(
+                                      decoration: ThemeHelper().buttonBoxDecoration(context),
+                                      child: ElevatedButton(
+                                        style: ThemeHelper().buttonStyle(),
+                                        onPressed: confirm,
+                                        child: Padding(
+                                          padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                          child: Text(
+                                            'تسجيل '.toUpperCase(),
+                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              )),
+                        ],
+                      )),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    ));
-
+          ),
+        ));
+  }
 }
-
-}
-
-

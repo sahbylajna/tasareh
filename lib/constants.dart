@@ -7,13 +7,14 @@ class ApiConstants {
   static String login = '/login';
 
   static String user = '/user';
-
+  static String delete = '/delete';
   static String register = '/sungupp';
  static String term = '/term';
 
   static String signature = '/signature';
 get userzs async => await SharedPreferences.getInstance();
   static String confiramtion = '/confiramtion';
+   static String resend = '/resend';
     static String getcount = '/getcount';
   static String getlist = '/getlist';
   static String getnotification = '/getnotife';

@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 term termFromJson(String str) => term.fromJson(json.decode(str));
 
 String termToJson(term data) => json.encode(data.toJson());
+
 class term {
   String? termAr;
   String? termEn;
